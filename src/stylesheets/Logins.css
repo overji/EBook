@@ -1,0 +1,10 @@
+/* src/stylesheets/Logins.css */
+.LogButton {
+    margin-bottom: 5px;
+}
+
+.LoginCard {
+    width:100%;
+    max-width:360px;
+    margin:0 auto;
+}
