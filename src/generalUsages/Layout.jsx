@@ -1,5 +1,6 @@
 import React from 'react';
 import { Breadcrumb, Layout, Menu } from 'antd';
+import { useLocation } from 'react-router-dom';
 
 const { Header, Content, Footer } = Layout;
 
@@ -8,7 +9,30 @@ const items = new Array(15).fill(null).map((_, index) => ({
     label: `nav ${index + 1}`,
 }));
 
-export function BasicLayout({children}){
+const routeBreadcrumbNameMap = {
+    '/': '首页',
+    '/login': '登录',
+    '/register': '注册',
+};
+
+export function BasicLayout({ children }) {
+    const location = useLocation();
+    const pathSnippets = location.pathname.split('/').filter(i => i);
+    const extraBreadcrumbItems = pathSnippets.map((_, index) => {
+        const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+        return (
+            <Breadcrumb.Item key={url}>
+                {routeBreadcrumbNameMap[url]}
+            </Breadcrumb.Item>
+        );
+    });
+
+    const breadcrumbItems = [
+        <Breadcrumb.Item key="home">
+            {routeBreadcrumbNameMap['/']}
+        </Breadcrumb.Item>,
+    ].concat(extraBreadcrumbItems);
+
     return (
         <Layout style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <Header style={{ display: 'flex', alignItems: 'center' }}>
@@ -23,15 +47,13 @@ export function BasicLayout({children}){
             </Header>
             <Content style={{ padding: '0 48px', flex: '1 0 auto' }}>
                 <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item>List</Breadcrumb.Item>
-                    <Breadcrumb.Item>App</Breadcrumb.Item>
+                    {breadcrumbItems}
                 </Breadcrumb>
                 {children}
             </Content>
             <Footer style={{ textAlign: 'center', flexShrink: 0 }}>
                 EBook ©{new Date().getFullYear()} Created by Ji.
-                <br/>
+                <br />
                 Thanks for Ant Design.
             </Footer>
         </Layout>

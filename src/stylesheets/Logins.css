@@ -8,3 +8,29 @@
     max-width:360px;
     margin:0 auto;
 }
+
+.LoginContainer {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.LoginForm {
+    width: 40%;
+}
+
+.RegisterCard {
+    width: 80%;
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.RegisterFormItem {
+    width: 100%;
+    max-width: 600px;
+}
