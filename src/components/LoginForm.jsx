@@ -9,9 +9,27 @@ import {
     ProFormText,
 } from '@ant-design/pro-components';
 import { Space, theme } from 'antd';
+import {login} from "../services/login";
+import { useNavigate} from "react-router-dom";
 
-export default function MyLoginForm(){
+export default function MyLoginForm({messageApi}){
     const { token } = theme.useToken();
+    const navigate = useNavigate();
+
+    async function handleLogin(values){
+        let status = await login(values.username, values.password)
+        if(status)
+        {
+            navigate("/",{ state: { loginStatus: "LoggedIn" } })
+        }
+        else
+        {
+            messageApi.open({
+                type: 'error',
+                content: '登陆错误',
+            });
+        }
+    }
 
     return (
         <ProConfigProvider hashed={false}>
@@ -20,6 +38,7 @@ export default function MyLoginForm(){
                     logo={require('../pictures/e-book.svg').default}
                     title="EBook"
                     subTitle="电子书城"
+                    onFinish={handleLogin}
                     actions={
                         <Space>
                             尚未注册?
@@ -48,35 +67,6 @@ export default function MyLoginForm(){
                             prefix: <LockOutlined className={'prefixIcon'} />,
                             strengthText:
                                 'Password should contain numbers, letters and special characters, at least 8 characters long.',
-                            statusRender: (value) => {
-                                const getStatus = () => {
-                                    if (value && value.length > 12) {
-                                        return 'ok';
-                                    }
-                                    if (value && value.length > 6) {
-                                        return 'pass';
-                                    }
-                                    return 'poor';
-                                };
-                                const status = getStatus();
-                                if (status === 'pass') {
-                                    return (
-                                        <div style={{ color: token.colorWarning }}>
-                                            强度：中
-                                        </div>
-                                    );
-                                }
-                                if (status === 'ok') {
-                                    return (
-                                        <div style={{ color: token.colorSuccess }}>
-                                            强度：强
-                                        </div>
-                                    );
-                                }
-                                return (
-                                    <div style={{ color: token.colorError }}>强度：弱</div>
-                                );
-                            },
                         }}
                         placeholder={'密码'}
                         rules={[

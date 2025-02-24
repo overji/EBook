@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import RegisterPage from '../pages/RegisterPage';
 import LoginPage from '../pages/LoginPage';
+import HomePage from "../pages/HomePage";
 
 export default function AppRoutes() {
     return (
@@ -9,7 +10,7 @@ export default function AppRoutes() {
             <Routes>
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/" element={<Navigate to="/login" />} />
+                <Route path="/" element={<HomePage/>} />
             </Routes>
         </Router>
     );

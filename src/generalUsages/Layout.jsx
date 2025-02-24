@@ -1,6 +1,7 @@
 import React from 'react';
 import { Breadcrumb, Layout, Menu } from 'antd';
 import { useLocation } from 'react-router-dom';
+import "../stylesheets/Layout.css"
 
 const { Header, Content, Footer } = Layout;
 
@@ -34,7 +35,7 @@ export function BasicLayout({ children }) {
     ].concat(extraBreadcrumbItems);
 
     return (
-        <Layout style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <Layout className="DefaultLayout">
             <Header style={{ display: 'flex', alignItems: 'center' }}>
                 <div className="demo-logo" />
                 <Menu
