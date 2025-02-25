@@ -27,7 +27,7 @@ export default function LoginPage() {
     },[loginStatus, messageApi]);
 
     return (
-        <BasicLayout>
+        <BasicLayout useBackGround={true}>
             {contextHolder}
             <div className="LoginContainer">
                 <MyLoginForm className="LoginForm" messageApi={messageApi}/>

@@ -3,7 +3,6 @@ import {myPost,getApiUrl} from "./common.js";
 
 
 export async function login(username, userPassword) {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     const urlPath = `${getApiUrl()}/login`;
     const loginObject = {
         username: username,

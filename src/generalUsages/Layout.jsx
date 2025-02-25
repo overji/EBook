@@ -16,7 +16,7 @@ const routeBreadcrumbNameMap = {
     '/register': '注册',
 };
 
-export function BasicLayout({ children }) {
+export function BasicLayout({ children ,useBackGround=false}) {
     const location = useLocation();
     const pathSnippets = location.pathname.split('/').filter(i => i);
     const extraBreadcrumbItems = pathSnippets.map((_, index) => {
@@ -27,6 +27,7 @@ export function BasicLayout({ children }) {
             </Breadcrumb.Item>
         );
     });
+    const bgClass = (useBackGround)?"BackgroundLayout":"DefaultLayout";
 
     const breadcrumbItems = [
         <Breadcrumb.Item key="home">
@@ -35,7 +36,7 @@ export function BasicLayout({ children }) {
     ].concat(extraBreadcrumbItems);
 
     return (
-        <Layout className="DefaultLayout">
+        <Layout className={bgClass}>
             <Header style={{ display: 'flex', alignItems: 'center' }}>
                 <div className="demo-logo" />
                 <Menu
