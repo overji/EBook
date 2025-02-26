@@ -5,6 +5,7 @@ import { getBookWithId, searchBooks } from "../services/getBooks";
 import { Col, Pagination, Row } from "antd";
 import {BasicLayout} from "../generalUsages/Layout";
 import "../stylesheets/Home.css"
+import {getMe} from "../services/userAction";
 
 function BookTab({ books, curIndex }) {
     console.log(books);
@@ -51,6 +52,10 @@ export default function HomePage() {
 
     return (
         <BasicLayout>
+            <button onClick={async ()=>{
+                let res = await getMe();
+                console.log(res);
+            }}>看我</button>
             {books && <BookTab books={books} curIndex={curIndex} />}
             <Pagination
                 className="HomePagination"
