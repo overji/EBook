@@ -1,5 +1,17 @@
 import {myGetJson,getApiUrl} from "./common.js";
 
+export async function getAllTags()
+{
+    let url = `${getApiUrl()}/book/tags`;
+    let ans = [];
+    try{
+        ans = await myGetJson(url)
+        console.log(ans);
+    } catch (e) {
+        console.error(e);
+    }
+    return ans;
+}
 export async function getBookWithId(id){
     let url = `${getApiUrl()}/book/${id}`
     let ans = {};

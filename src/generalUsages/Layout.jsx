@@ -15,12 +15,7 @@ const routeBreadcrumbNameMap = {
 
 export function BasicLayout({ children ,useBackGround=false}) {
     const location = useLocation();
-    const items = [
-        {
-            key:0,
-            label:`你好`
-        }
-    ]
+    const items = []
     const navigate = useNavigate();
     const pathSnippets = location.pathname.split('/').filter(i => i);
     const extraBreadcrumbItems = pathSnippets.map((_, index) => {
@@ -75,25 +70,40 @@ export function BasicLayout({ children ,useBackGround=false}) {
     );
 }
 
-export function UserLayout({children})
-{
+export function UserLayout({ children }) {
     let userName = sessionStorage.getItem("user");
     const location = useLocation();
     const navigate = useNavigate();
-    const [myInfo,setMyInfo] = useState({});
+    const [myInfo, setMyInfo] = useState(null);
     const items = [
         {
-            key:0,
-            label:`你好`
+            key: 0,
+            label: `首页`,
+            onClick: () => navigate("/")
+        },
+        {
+            key: 1,
+            label: `个人`,
+            onClick: () => navigate("/me")
         }
-    ]
-    const pathSnippets = location.pathname.split('/').filter(i => i);
+    ];
+    const pathSnippets = location.pathname.split('/').filter(i => { return i; });
 
     useEffect(() => {
-        const fetchMyData = async ()=>{
-            setMyInfo(await getMe());
-        }
-        fetchMyData()
+        const fetchMyData = async () => {
+            if(sessionStorage.getItem("userInfo") !== null)
+            {
+                let res = sessionStorage.getItem("userInfo")
+                setMyInfo(JSON.parse(res))
+                console.log(`已经获取个人信息!`)
+                return;
+            }
+            const data = await getMe();
+            setMyInfo(data);
+            console.log(JSON.stringify(data))
+            sessionStorage.setItem("userInfo",JSON.stringify(data));
+        };
+        fetchMyData();
     }, []);
 
     if (userName === null) {
@@ -116,13 +126,9 @@ export function UserLayout({children})
     ].concat(extraBreadcrumbItems);
 
     return (
-        <Layout>
+        <Layout className="DefaultLayout">
             <Header style={{ display: 'flex', alignItems: 'center' }}>
-                <button className="demoLogo" onClick={
-                    ()=>{
-                        navigate("/")
-                    }
-                }>
+                <button className="demoLogo" onClick={() => navigate("/")}>
                     电子书城
                 </button>
                 <Menu
@@ -132,7 +138,9 @@ export function UserLayout({children})
                     items={items}
                     style={{ flex: 1, minWidth: 0 }}
                 />
-                <Avatar size={48} icon={<img src={`${getApiUrl()}/user/avatars/${myInfo.avatar}`} alt={`${myInfo.nickname}`}/>}/>
+                {myInfo && (
+                    <Avatar size={48} icon={<img src={`${getApiUrl()}/user/avatars/${myInfo.avatar}`} alt={`${myInfo.nickname}`} />} />
+                )}
             </Header>
             <Content style={{ padding: '0 48px', flex: '1 0 auto' }}>
                 <Breadcrumb style={{ margin: '16px 0' }}>

@@ -1,11 +1,13 @@
 import { Navigate } from "react-router-dom";
 import BookPurchaseCard from "../components/BookPurchaseCard";
 import { useState, useEffect } from "react";
-import { getBookWithId, searchBooks } from "../services/getBooks";
-import { Col, Pagination, Row } from "antd";
-import {BasicLayout, UserLayout} from "../generalUsages/Layout";
+import {getAllTags, getBookWithId, searchBooks} from "../services/getBooks";
+import {Col, Pagination, Row, Input, Empty, Select} from "antd";
+import {UserLayout} from "../generalUsages/Layout";
 import "../stylesheets/Home.css"
 import {getAvatarByFileName, getMe} from "../services/userAction";
+
+const { Search } = Input;
 
 function BookTab({ books, curIndex }) {
     let bookInfos = books.items;
@@ -33,6 +35,7 @@ export default function HomePage() {
     const [books, setBooks] = useState(null);
     const [tag, setTag] = useState("");
     const [keyword, setKeyword] = useState("");
+    const [allTags,setAllTags] = useState([]);
 
     useEffect(() => {
         async function fetchBook() {
@@ -43,17 +46,49 @@ export default function HomePage() {
         fetchBook();
     }, [curIndex, tag, keyword]);
 
+    useEffect(()=>{
+        async function fetchTags() {
+            const tagsData = await getAllTags();
+            setAllTags(tagsData);
+        }
+        fetchTags();
+    },[]);
+
     if (userName === null) {
         return <Navigate to={"/login"} state={{ loginStatus: "UnLoggedIn" }} />;
     }
 
+    async function onKeywordSearch(value)
+    {
+        setKeyword(value);
+    }
+
+    async function onTagSearch(value)
+    {
+        setTag(value);
+    }
+
     return (
         <UserLayout>
-            <button onClick={async ()=>{
-                let res = await getMe();
-                console.log(res);
-            }}>看我</button>
-            {books && <BookTab books={books} curIndex={curIndex} />}
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+                <Search placeholder="搜索" onSearch={onKeywordSearch} size="large" style={{ width: "25vw"}} />
+                <Select
+                    size="large"
+                    style={{
+                        width: "8vw",
+                    }}
+                    allowClear
+                    options={allTags.map((tag,index)=>{
+                        return {
+                            value:tag,
+                            label:tag
+                        }
+                    })}
+                    onSelect={onTagSearch}
+                    placeholder="标签"
+                />
+            </div>
+            {books && books.items.length > 0 ? <BookTab books={books} curIndex={curIndex} /> : <Empty style={{minHeight:"65vh"}}/>}
             <Pagination
                 className="HomePagination"
                 align="center"
