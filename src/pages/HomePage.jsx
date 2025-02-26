@@ -5,11 +5,9 @@ import { getBookWithId, searchBooks } from "../services/getBooks";
 import { Col, Pagination, Row } from "antd";
 import {BasicLayout} from "../generalUsages/Layout";
 import "../stylesheets/Home.css"
-import {getMe} from "../services/userAction";
+import {getAvatarByFileName, getMe} from "../services/userAction";
 
 function BookTab({ books, curIndex }) {
-    console.log(books);
-    console.log(curIndex);
     let bookInfos = books.items;
     return (
         <div style={{backgroundColor:"white"}}>
@@ -40,7 +38,6 @@ export default function HomePage() {
         async function fetchBook() {
             const bookData = await searchBooks(tag, keyword, curIndex, 8);
             setBooks(bookData);
-            console.log(bookData);
             setTotalPages(bookData.total);
         }
         fetchBook();

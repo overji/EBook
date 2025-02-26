@@ -2,7 +2,7 @@ import {getApiUrl,myGetJson,myPut,myPost,myGet,myDelete} from "./common";
 
 export async function changePassword(password)
 {
-    let url = `${getApiUrl()}/api/user/me/password`
+    let url = `${getApiUrl()}/user/me/password`
     let res;
     try{
         res = await myPut(url,{
@@ -21,7 +21,7 @@ export async function changePassword(password)
 
 export async function changeIntroduction(introduction)
 {
-    let url = `${getApiUrl()}/api/user/me/introduction`
+    let url = `${getApiUrl()}/user/me/introduction`
     let res;
     try{
         res = await myPut(url,{
@@ -41,7 +41,7 @@ export async function changeIntroduction(introduction)
 
 export async function changeAvatar(avatarBinary)
 {
-    let url = `${getApiUrl()}/api/user/me/avatar`
+    let url = `${getApiUrl()}/user/me/avatar`
     let res;
     try{
         res = await myPost(url,{
@@ -60,7 +60,7 @@ export async function changeAvatar(avatarBinary)
 
 export async function getAddresses()
 {
-    let url = `${getApiUrl()}/api/user/me/addresses`
+    let url = `${getApiUrl()}/user/me/addresses`
     let res;
     try{
         res = await myGetJson(url)
@@ -73,7 +73,7 @@ export async function getAddresses()
 
 export async function addAddress(address,receiver,tel)
 {
-    let url = `${getApiUrl()}/api/user/me/addresses`
+    let url = `${getApiUrl()}/user/me/addresses`
     let res;
     try{
         res = await myPost(url,{
@@ -94,7 +94,7 @@ export async function addAddress(address,receiver,tel)
 
 export async function getUserById(id)
 {
-    let url = `${getApiUrl()}/api/user/${id}`;
+    let url = `${getApiUrl()}/user/${id}`;
     let res;
     try{
         res = await myGetJson(url)
@@ -107,7 +107,7 @@ export async function getUserById(id)
 
 export async function getMe()
 {
-    let url = `${getApiUrl()}/api/user/me`;
+    let url = `${getApiUrl()}/user/me`;
     let res;
     try{
         res = await myGetJson(url)
@@ -120,7 +120,7 @@ export async function getMe()
 
 export async function getAvatarByFileName(filename)
 {
-    let url = `${getApiUrl()}/api/user/avatars/${filename}`;
+    let url = `${getApiUrl()}/user/avatars/${filename}`;
     let res;
     try{
         res = await myGet(url)
@@ -133,7 +133,7 @@ export async function getAvatarByFileName(filename)
 
 export async function deleteMyAddress(id)
 {
-    let url = `${getApiUrl()}/api/user/me/addresses/${id}`;
+    let url = `${getApiUrl()}/user/me/addresses/${id}`;
     let res;
     try{
         res = await myDelete(url)
