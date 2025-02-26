@@ -3,7 +3,7 @@ import BookPurchaseCard from "../components/BookPurchaseCard";
 import { useState, useEffect } from "react";
 import { getBookWithId, searchBooks } from "../services/getBooks";
 import { Col, Pagination, Row } from "antd";
-import {BasicLayout} from "../generalUsages/Layout";
+import {BasicLayout, UserLayout} from "../generalUsages/Layout";
 import "../stylesheets/Home.css"
 import {getAvatarByFileName, getMe} from "../services/userAction";
 
@@ -48,7 +48,7 @@ export default function HomePage() {
     }
 
     return (
-        <BasicLayout>
+        <UserLayout>
             <button onClick={async ()=>{
                 let res = await getMe();
                 console.log(res);
@@ -63,6 +63,6 @@ export default function HomePage() {
                     setCurIndex(page - 1);
                 }}
             />
-        </BasicLayout>
+        </UserLayout>
     );
 }
