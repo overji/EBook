@@ -1,11 +1,10 @@
 import { Navigate } from "react-router-dom";
 import BookPurchaseCard from "../components/BookPurchaseCard";
 import { useState, useEffect } from "react";
-import {getAllTags, getBookWithId, searchBooks} from "../services/getBooks";
+import {getAllTags,  searchBooks} from "../services/getBooks";
 import {Col, Pagination, Row, Input, Empty, Select} from "antd";
-import {UserLayout} from "../generalUsages/Layout";
+import {UserLayout} from "../generalUsages/UserLayout";
 import "../stylesheets/Home.css"
-import {getAvatarByFileName, getMe} from "../services/userAction";
 
 const { Search } = Input;
 

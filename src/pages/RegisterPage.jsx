@@ -1,5 +1,5 @@
 import RegisterForm from "../components/RegisterForm";
-import {BasicLayout} from "../generalUsages/Layout";
+import {BasicLayout} from "../generalUsages/BasicLayout";
 import {React} from "react";
 import "../stylesheets/Logins.css"
 

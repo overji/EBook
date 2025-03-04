@@ -1,5 +1,5 @@
 import MyLoginForm from "../components/LoginForm";
-import { BasicLayout } from "../generalUsages/Layout";
+import { BasicLayout } from "../generalUsages/BasicLayout";
 import React, {useEffect, useRef} from "react";
 import "../stylesheets/Logins.css";
 import {useLocation} from "react-router-dom";
