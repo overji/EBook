@@ -88,7 +88,7 @@ export async function addAddress(address,receiver,tel)
         if(res.ok)
         {
             console.log("成功添加地址");
-            return true;
+            return res;
         }
     } catch (e) {
         console.error(e);

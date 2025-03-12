@@ -1,8 +1,10 @@
-import {Navigate, useLocation, useNavigate} from "react-router-dom";
+import React, {useEffect,useState} from 'react';
+import { useLocation, useNavigate} from "react-router-dom";
+import {Avatar, Breadcrumb, Dropdown, Layout, Menu} from "antd";
+import { getApiUrl } from "../services/common";
 import {getMe} from "../services/userAction";
-import {Avatar, Breadcrumb, Layout, Menu} from "antd";
-import {getApiUrl} from "../services/common";
-import {useEffect, useState} from "react";
+import {UserContext} from "../services/context";
+import {PageLoading} from "@ant-design/pro-components";
 
 const { Header, Content, Footer } = Layout;
 
@@ -12,11 +14,10 @@ const routeBreadcrumbNameMap = {
     '/register': '注册',
 };
 
-export function UserLayout({ children }) {
-    let userName = sessionStorage.getItem("user");
+export default function UserLayout({ children }) {
     const location = useLocation();
     const navigate = useNavigate();
-    const [myInfo, setMyInfo] = useState(null);
+    const [user,setUser] = useState(null);
     const items = [
         {
             key: 0,
@@ -29,29 +30,45 @@ export function UserLayout({ children }) {
             onClick: () => navigate("/me")
         }
     ];
-    const pathSnippets = location.pathname.split('/').filter(i => { return i; });
 
-    useEffect(() => {
-        const fetchMyData = async () => {
-            if(sessionStorage.getItem("userInfo") !== null)
-            {
-                let res = sessionStorage.getItem("userInfo")
-                console.log(res)
-                setMyInfo(JSON.parse(res))
-                console.log(`已经获取个人信息!`)
-                return;
-            }
-            const data = await getMe();
-            setMyInfo(data);
-            console.log(JSON.stringify(data))
-            sessionStorage.setItem("userInfo",JSON.stringify(data));
+    function getDropItems(user) {
+        return {
+            items: [
+                {
+                    key: '1',
+                    label: (
+                        <div
+                            onClick={() => {
+                                navigate("/me");
+                            }}
+                            style={{cursor: 'pointer' }}
+                        >
+                            个人中心
+                        </div>
+                    ),
+                },
+                {
+                    key: '2',
+                    label:`余额：${user.balance}元`
+                },
+                {
+                    key: '3',
+                    label: (
+                        <div onClick={() => {
+                            localStorage.removeItem("token");
+                            setUser(null);
+                            navigate("/login",{state:{"loginStatus":"UnLoggedIn"}});
+                        }} style={{cursor: 'pointer'}}>
+                            退出登录
+                        </div>
+                    ),
+                    danger: true,
+                },
+            ]
         };
-        fetchMyData();
-    }, []);
-
-    if (userName === null) {
-        return <Navigate to={"/login"} state={{ loginStatus: "UnLoggedIn" }} />;
     }
+
+    const pathSnippets = location.pathname.split('/').filter(i => { return i; });
 
     const extraBreadcrumbItems = pathSnippets.map((_, index) => {
         const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
@@ -68,34 +85,55 @@ export function UserLayout({ children }) {
         </Breadcrumb.Item>,
     ].concat(extraBreadcrumbItems);
 
+    useEffect(()=>{
+        const fetchData = async () => {
+            const user = await getMe();
+            if(!user)
+            {
+                navigate("/login",{state:{"loginStatus":"UnLoggedIn"}});
+            }
+            setUser(user);
+        }
+        fetchData();
+    },[navigate])
+
+
     return (
-        <Layout className="DefaultLayout">
-            <Header style={{ display: 'flex', alignItems: 'center' }}>
-                <button className="demoLogo" onClick={() => navigate("/")}>
-                    电子书城
-                </button>
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    defaultSelectedKeys={['2']}
-                    items={items}
-                    style={{ flex: 1, minWidth: 0 }}
-                />
-                {myInfo && (
-                    <Avatar size={48} icon={<img src={`${getApiUrl()}/user/avatars/${myInfo.avatar}`} alt={`${myInfo.nickname}`} />} />
-                )}
-            </Header>
-            <Content style={{ padding: '0 48px', flex: '1 0 auto' }}>
-                <Breadcrumb style={{ margin: '16px 0' }}>
-                    {breadcrumbItems}
-                </Breadcrumb>
-                {children}
-            </Content>
-            <Footer style={{ textAlign: 'center', flexShrink: 0 }}>
-                EBook ©{new Date().getFullYear()} Created by Ji.
-                <br />
-                Thanks for Ant Design.
-            </Footer>
-        </Layout>
+            <Layout className="DefaultLayout">
+                <Header style={{ display: 'flex', alignItems: 'center' }}>
+                    <button className="demoLogo" onClick={() => navigate("/")}>
+                        电子书城
+                    </button>
+                    <Menu
+                        theme="dark"
+                        mode="horizontal"
+                        defaultSelectedKeys={['2']}
+                        items={items}
+                        style={{ flex: 1, minWidth: 0 }}
+                    />
+                    {user && (
+                        <Dropdown menu={getDropItems(user)}>
+                            <Avatar size={48} icon={<img src={`${getApiUrl()}/user/avatars/${user.avatar}`} alt={`${user.nickname}`} />} />
+                        </Dropdown>
+                    )}
+                </Header>
+                <Content style={{ padding: '0 48px', flex: '1 0 auto' }}>
+                    {user ? (
+                        <UserContext.Provider value={{user,setUser}}>
+                            <Breadcrumb style={{ margin: '16px 0' }}>
+                                {breadcrumbItems}
+                            </Breadcrumb>
+                            {children}
+                        </UserContext.Provider>
+                    ) : (
+                        <PageLoading />
+                    )}
+                </Content>
+                <Footer style={{ textAlign: 'center', flexShrink: 0 }}>
+                    EBook ©{new Date().getFullYear()} Created by Ji.
+                    <br />
+                    Thanks for Ant Design.
+                </Footer>
+            </Layout>
     );
 }

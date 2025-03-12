@@ -3,7 +3,7 @@ import BookPurchaseCard from "../components/BookPurchaseCard";
 import { useState, useEffect } from "react";
 import {getAllTags,  searchBooks} from "../services/getBooks";
 import {Col, Pagination, Row, Input, Empty, Select} from "antd";
-import {UserLayout} from "../generalUsages/UserLayout";
+import UserLayout from "../generalUsages/UserLayout";
 import "../stylesheets/Home.css"
 
 const { Search } = Input;
@@ -84,6 +84,7 @@ export default function HomePage() {
                         }
                     })}
                     onSelect={onTagSearch}
+                    onClear={()=>setTag("")}
                     placeholder="标签"
                 />
             </div>

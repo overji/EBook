@@ -48,9 +48,6 @@ export function BasicLayout({ children ,useBackGround=false}) {
                     items={items}
                     style={{ flex: 1, minWidth: 0 }}
                 />
-                <div className="demoLogo">
-                    {sessionStorage.getItem("user")}
-                </div>
             </Header>
             <Content style={{ padding: '0 48px', flex: '1 0 auto' }}>
                 <Breadcrumb style={{ margin: '16px 0' }}>
