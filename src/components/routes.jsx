@@ -1,9 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import RegisterPage from '../pages/RegisterPage';
 import LoginPage from '../pages/LoginPage';
 import HomePage from "../pages/HomePage";
 import UserPage from "../pages/UserPage";
+import CartPage from "../pages/CartPage";
 
 export default function AppRoutes() {
     return (
@@ -13,6 +14,7 @@ export default function AppRoutes() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/" element={<HomePage/>} />
                 <Route path="/me" element={<UserPage/>} />
+                <Route path="/cart" element={<CartPage/>} />
             </Routes>
         </Router>
     );

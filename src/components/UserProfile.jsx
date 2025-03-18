@@ -4,7 +4,6 @@ import { getApiUrl } from "../services/common";
 import {
     addAddress,
     changeIntroduction,
-    changePassword,
     deleteMyAddress,
     getAddresses,
     getMe

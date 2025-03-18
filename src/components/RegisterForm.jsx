@@ -1,19 +1,15 @@
 // src/components/RegisterForm.jsx
-import React, { useState } from 'react';
+import React from 'react';
 import {
-    AutoComplete,
     Button,
-    Cascader,
     Checkbox,
     Col,
     Form,
     Input,
-    InputNumber,
     Row,
     Select,
     Card, Typography
 } from 'antd';
-import WebIntroCard from "./WebIntroCard";
 import "../stylesheets/Logins.css";
 
 const { Option } = Select;

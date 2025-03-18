@@ -12,6 +12,8 @@ const routeBreadcrumbNameMap = {
     '/': '首页',
     '/login': '登录',
     '/register': '注册',
+    '/me': '个人中心',
+    '/cart': '购物车'
 };
 
 export default function UserLayout({ children }) {
@@ -28,6 +30,11 @@ export default function UserLayout({ children }) {
             key: 1,
             label: `个人`,
             onClick: () => navigate("/me")
+        },
+        {
+            key: 2,
+            label: `购物车`,
+            onClick: () => navigate("/cart")
         }
     ];
 
@@ -69,7 +76,12 @@ export default function UserLayout({ children }) {
     }
 
     const pathSnippets = location.pathname.split('/').filter(i => { return i; });
-
+    const lastPath = pathSnippets[pathSnippets.length - 1];
+    let selectedKey = items.find(item => item.onClick.toString().includes(lastPath))?.key;
+    if(selectedKey === undefined)
+    {
+        selectedKey = 0
+    }
     const extraBreadcrumbItems = pathSnippets.map((_, index) => {
         const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
         return (
@@ -107,8 +119,9 @@ export default function UserLayout({ children }) {
                     <Menu
                         theme="dark"
                         mode="horizontal"
-                        defaultSelectedKeys={['2']}
+                        defaultSelectedKeys={['0']}
                         items={items}
+                        selectedKeys={[`${selectedKey}`]}
                         style={{ flex: 1, minWidth: 0 }}
                     />
                     {user && (

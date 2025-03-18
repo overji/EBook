@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card } from 'antd';
-import {getBookWithId} from "../services/getBooks";
 
 const { Meta } = Card;
 

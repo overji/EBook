@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, Flex, Image, Typography} from 'antd';
+import {Card,  Image, Typography} from 'antd';
 
 export default function WebIntroCard({ width }) {
     const cardStyle: React.CSSProperties = {

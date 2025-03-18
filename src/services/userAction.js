@@ -54,7 +54,7 @@ export async function changeAvatar(avatarBinary)
         }
         else
         {
-            console.log(res);
+            console.log("更换头像失败");
         }
     } catch (e) {
         console.error(e);
