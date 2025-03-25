@@ -5,6 +5,7 @@ import {getAllTags,  searchBooks} from "../services/getBooks";
 import {Col, Pagination, Row, Input, Empty, Select} from "antd";
 import UserLayout from "../generalUsages/UserLayout";
 import "../stylesheets/Home.css"
+import {getMe} from "../services/userAction";
 
 const { Search } = Input;
 
@@ -28,7 +29,6 @@ function BookTab({ books, curIndex }) {
 }
 
 export default function HomePage() {
-    let userName = sessionStorage.getItem("user");
     const [totalPages, setTotalPages] = useState(0);
     const [curIndex, setCurIndex] = useState(0);
     const [books, setBooks] = useState(null);
@@ -52,10 +52,6 @@ export default function HomePage() {
         }
         fetchTags();
     },[]);
-
-    if (userName === null) {
-        return <Navigate to={"/login"} state={{ loginStatus: "UnLoggedIn" }} />;
-    }
 
     async function onKeywordSearch(value)
     {

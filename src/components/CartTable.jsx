@@ -2,6 +2,7 @@ import {getCart,changeCart,addToCart,deleteFromCart} from "../services/cartActio
 
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Flex, InputNumber, Row, Table, Typography} from 'antd';
+import OrderModal from "./OrderModal";
 const {Text} = Typography;
 
 function ExpandCartItem({cartItem}){
@@ -40,10 +41,12 @@ export default function CartTable(){
         {
             title: '标题',
             dataIndex: ['book','title'],
+            key: 'title',
         },
         {
             title: '数量',
             dataIndex: 'number',
+            key: 'number',
             render: (text, record) => (
                 <InputNumber
                     defaultValue={record.number}
@@ -67,12 +70,14 @@ export default function CartTable(){
         },
         {
             title: '总价',
+            key: 'totalPrice',
             render: (text, record) => (
                 <span>{record.book.price * record.number / 100}￥</span>
             )
         },
         {
             title: '操作',
+            key: 'action',
             render: (_,record)=>{
                 return (
                     <Button
@@ -129,6 +134,7 @@ export default function CartTable(){
             <Text strong>
                 总价:{getSelectedTotalPrice()}￥
             </Text>
+            <OrderModal selectedList={selectedRowKeys} setSelectedList={setSelectedRowKeys}/>
         </Flex>
     );
 }

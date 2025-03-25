@@ -9,6 +9,7 @@ export async function getCart()
         return res;
     } catch (e) {
         console.log(e);
+        return null;
     }
 }
 
@@ -23,6 +24,7 @@ export async function addToCart(bookId)
         return res;
     } catch (e) {
         console.log(e);
+        return null;
     }
 }
 
@@ -35,6 +37,7 @@ export async function changeCart(id, number)
         return res;
     } catch (e) {
         console.log(e);
+        return null;
     }
 }
 
@@ -47,5 +50,6 @@ export async function deleteFromCart(id)
         return res;
     } catch (e) {
         console.log(e);
+        return null;
     }
 }

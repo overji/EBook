@@ -115,9 +115,10 @@ export async function getMe()
     let res;
     try{
         res = await myGetJson(url)
+        console.log(`res:${JSON.stringify(res)}`);
     } catch (e) {
         console.error(e);
-        res = {};
+        res = undefined;
     }
     return res;
 }

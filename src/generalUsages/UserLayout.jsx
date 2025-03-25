@@ -13,7 +13,9 @@ const routeBreadcrumbNameMap = {
     '/login': '登录',
     '/register': '注册',
     '/me': '个人中心',
-    '/cart': '购物车'
+    '/cart': '购物车',
+    '/order': '订单',
+    '/book': '图书详情',
 };
 
 export default function UserLayout({ children }) {
@@ -35,6 +37,11 @@ export default function UserLayout({ children }) {
             key: 2,
             label: `购物车`,
             onClick: () => navigate("/cart")
+        },
+        {
+            key: 3,
+            label: `订单`,
+            onClick: () => navigate("/order")
         }
     ];
 
@@ -84,9 +91,10 @@ export default function UserLayout({ children }) {
     }
     const extraBreadcrumbItems = pathSnippets.map((_, index) => {
         const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
+        const breadcrumbName = routeBreadcrumbNameMap[`/${pathSnippets[index]}`] || pathSnippets[index];
         return (
             <Breadcrumb.Item key={url}>
-                {routeBreadcrumbNameMap[url]}
+                {breadcrumbName}
             </Breadcrumb.Item>
         );
     });
@@ -98,15 +106,13 @@ export default function UserLayout({ children }) {
     ].concat(extraBreadcrumbItems);
 
     useEffect(()=>{
-        const fetchData = async () => {
-            const user = await getMe();
-            if(!user)
-            {
-                navigate("/login",{state:{"loginStatus":"UnLoggedIn"}});
-            }
-            setUser(user);
-        }
-        fetchData();
+        getMe()
+            .then((res) => {
+                if(res === undefined){
+                    navigate("/login",{state:{"loginStatus":"UnLoggedIn"}});
+                }
+                setUser(res)
+            })
     },[navigate])
 
 
