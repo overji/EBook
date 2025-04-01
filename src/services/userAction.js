@@ -136,6 +136,11 @@ export async function getAvatarByFileName(filename)
     return res;
 }
 
+export function getAvatarFullUrl(filename)
+{
+    return `${getApiUrl()}/user/avatars/${filename}`;
+}
+
 export async function deleteMyAddress(id)
 {
     let url = `${getApiUrl()}/user/me/addresses/${id}`;

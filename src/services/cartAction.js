@@ -15,16 +15,11 @@ export async function getCart()
 
 export async function addToCart(bookId)
 {
-    let url = getApiUrl() + '/cart';
-    let res;
+    let url = getApiUrl() + `/cart?bookId=${bookId}`;
     try{
-        res = await myPut(url, {
-            bookId: bookId
-        });
-        return res;
+        return await myPut(url);
     } catch (e) {
-        console.log(e);
-        return null;
+        throw e;
     }
 }
 

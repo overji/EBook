@@ -1,0 +1,11 @@
+.priceSpan{
+    background-color: #f3fffa;
+    margin-right:25px;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+.bargainSpan{
+    color: #ffffff;
+    background-color: #4bff8b;
+}

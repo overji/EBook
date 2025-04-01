@@ -1,0 +1,22 @@
+.defaultAvatar{
+    background-color: #0c9bff;
+    color: #ffffff;
+}
+
+.likeIcon:hover{
+    cursor:pointer;
+    user-select: none;
+}
+
+.likeIcon{
+    margin-right:8px;
+    margin-left:0;
+}
+
+.CommentOthersRow {
+    width: 100%;
+}
+
+.CommentDivRow{
+    width: 100%;
+}
