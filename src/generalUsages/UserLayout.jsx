@@ -6,7 +6,7 @@ import {getMe} from "../services/userAction";
 import {UserContext} from "../services/context";
 import {PageLoading} from "@ant-design/pro-components";
 
-const { Header, Content, Footer } = Layout;
+const { Header,Sider, Content, Footer } = Layout;
 
 const routeBreadcrumbNameMap = {
     '/': '首页',
@@ -118,36 +118,41 @@ export default function UserLayout({ children }) {
 
     return (
             <Layout className="DefaultLayout">
-                <Header style={{ display: 'flex', alignItems: 'center' }}>
+                <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                    {/*space-between 两端对齐*/}
                     <button className="demoLogo" onClick={() => navigate("/")}>
                         电子书城
                     </button>
-                    <Menu
-                        theme="dark"
-                        mode="horizontal"
-                        defaultSelectedKeys={['0']}
-                        items={items}
-                        selectedKeys={[`${selectedKey}`]}
-                        style={{ flex: 1, minWidth: 0 }}
-                    />
+
                     {user && (
-                        <Dropdown menu={getDropItems(user)}>
+                        <Dropdown menu={getDropItems(user)} style={{ marginLeft: 'auto' }}>
                             <Avatar size={48} icon={<img src={`${getApiUrl()}/user/avatars/${user.avatar}`} alt={`${user.nickname}`} />} />
                         </Dropdown>
                     )}
                 </Header>
-                <Content style={{ padding: '0 48px', flex: '1 0 auto' }}>
-                    {user ? (
-                        <UserContext.Provider value={{user,setUser}}>
-                            <Breadcrumb style={{ margin: '16px 0' }}>
-                                {breadcrumbItems}
-                            </Breadcrumb>
-                            {children}
-                        </UserContext.Provider>
-                    ) : (
-                        <PageLoading />
-                    )}
-                </Content>
+                <Layout style={{ padding: '0 24px 24px' }}>
+                    <Sider width={200}>
+                        <Menu
+                            mode="inline"
+                            defaultSelectedKeys={['0']}
+                            items={items}
+                            selectedKeys={[`${selectedKey}`]}
+                            style={{ height: '100%', borderRight: 0 }}
+                        />
+                    </Sider>
+                    <Content style={{ padding: '0 48px', flex: '1 0 auto' }}>
+                        {user ? (
+                            <UserContext.Provider value={{user,setUser}}>
+                                <Breadcrumb style={{ margin: '16px 0' }}>
+                                    {breadcrumbItems}
+                                </Breadcrumb>
+                                {children}
+                            </UserContext.Provider>
+                        ) : (
+                            <PageLoading />
+                        )}
+                    </Content>
+                </Layout>
                 <Footer style={{ textAlign: 'center', flexShrink: 0 }}>
                     EBook ©{new Date().getFullYear()} Created by Ji.
                     <br />
