@@ -63,7 +63,7 @@ export default function UserLayout({ children }) {
                 },
                 {
                     key: '2',
-                    label:`余额：${user.balance}元`
+                    label:`余额：${user.balance/100}￥`
                 },
                 {
                     key: '3',
@@ -130,7 +130,7 @@ export default function UserLayout({ children }) {
                         </Dropdown>
                     )}
                 </Header>
-                <Layout style={{ padding: '0 24px 24px' }}>
+                <Layout>
                     <Sider width={200}>
                         <Menu
                             mode="inline"

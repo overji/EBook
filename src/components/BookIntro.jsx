@@ -1,4 +1,4 @@
-import {Image, Row, Col, Typography, Divider, Spin, Button, message, Tabs, Pagination} from 'antd'
+import {Image, Row, Col, Typography, Divider, Spin, Button, message,  Pagination} from 'antd'
 import {getBookWithId} from "../services/getBooks";
 import {useEffect, useState} from "react";
 import "../stylesheets/BookIntro.css"

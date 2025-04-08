@@ -5,6 +5,7 @@ import { getApiUrl } from '../services/common';
 import ImgCrop from "antd-img-crop";
 
 const beforeUpload = (file) => {
+    //在上传图片之前先判断图片的格式是不是jpg或者png，大小是否小于2M
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
         message.error('You can only upload JPG/PNG file!');
