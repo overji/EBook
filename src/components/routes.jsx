@@ -7,6 +7,7 @@ import UserPage from "../pages/UserPage";
 import CartPage from "../pages/CartPage";
 import OrderPage from "../pages/OrderPage";
 import BookPage from "../pages/BookPage";
+import Error404Page from "../pages/Error404Page";
 
 function BookPageWrapper() {
     const { id } = useParams();
@@ -14,6 +15,7 @@ function BookPageWrapper() {
 }
 
 export default function AppRoutes() {
+    // 这个组件是路由的入口
     return (
         <Router>
             <Routes>
@@ -23,7 +25,9 @@ export default function AppRoutes() {
                 <Route path="/me" element={<UserPage/>} />
                 <Route path="/cart" element={<CartPage/>} />
                 <Route path="/order" element={<OrderPage/>} />
+                <Route path="/order" element={<OrderPage/>} />
                 <Route path="/book/:id" element={<BookPageWrapper />} />
+                <Route path="*" element={<Error404Page/>} />
             </Routes>
         </Router>
     );

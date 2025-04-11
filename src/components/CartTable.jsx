@@ -1,11 +1,12 @@
-import {getCart,changeCart,addToCart,deleteFromCart} from "../services/cartAction";
+import {getCart, changeCart, addToCart, deleteFromCart} from "../services/cartAction";
 
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Flex, InputNumber, Row, Table, Typography} from 'antd';
 import OrderModal from "./OrderModal";
+
 const {Text} = Typography;
 
-function ExpandCartItem({cartItem}){
+function ExpandCartItem({cartItem}) {
     return (
         <Flex>
             <Col span="4">
@@ -24,14 +25,18 @@ function ExpandCartItem({cartItem}){
         </Flex>
     )
 }
-export default function CartTable(){
-    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-    const [cart,setCart] = useState([]);
 
-    function getSelectedTotalPrice(){
+export default function CartTable() {
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+    const [cart, setCart] = useState([]);
+
+    function getSelectedTotalPrice() {
         let totalPrice = 0;
-        for(let key of selectedRowKeys){
+        for (let key of selectedRowKeys) {
             const item = cart.find((item) => item.id === key);
+            if (item === undefined) {
+                continue;
+            }
             totalPrice += item.book.price * item.number / 100;
         }
         return totalPrice
@@ -40,7 +45,7 @@ export default function CartTable(){
     const columns = [
         {
             title: '标题',
-            dataIndex: ['book','title'],
+            dataIndex: ['book', 'title'],
             key: 'title',
         },
         {
@@ -52,17 +57,16 @@ export default function CartTable(){
                     defaultValue={record.number}
                     min={1}
                     onChange={(value) => {
-                        changeCart(record.id,value).then(() => {
-                                setCart(cart.map((item) => {
-                                    if(item.book.id === record.book.id)
-                                    {
-                                        return {
-                                            ...item,
-                                            number: value
-                                        };
-                                    }
-                                    return item;
-                                }));
+                        changeCart(record.id, value).then(() => {
+                            setCart(cart.map((item) => {
+                                if (item.book.id === record.book.id) {
+                                    return {
+                                        ...item,
+                                        number: value
+                                    };
+                                }
+                                return item;
+                            }));
                         });
                     }}
                 />
@@ -78,7 +82,7 @@ export default function CartTable(){
         {
             title: '操作',
             key: 'action',
-            render: (_,record)=>{
+            render: (_, record) => {
                 return (
                     <Button
                         onClick={() => {
@@ -100,8 +104,7 @@ export default function CartTable(){
     useEffect(() => {
         getCart().then((res) => {
             console.log(JSON.stringify(res))
-            if(res)
-            {
+            if (res) {
                 setCart(res);
             }
         });
@@ -116,6 +119,7 @@ export default function CartTable(){
         selectedRowKeys,
         onChange: onSelectChange,
     };
+
     const hasSelected = selectedRowKeys.length > 0;
     return (
         <Flex gap="middle" vertical>

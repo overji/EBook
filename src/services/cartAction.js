@@ -1,10 +1,9 @@
-import {getApiUrl,myGetJson,myPut,myDelete} from "./common";
+import {getApiUrl, myGetJson, myPut, myDelete} from "./common";
 
-export async function getCart()
-{
+export async function getCart() {
     let url = getApiUrl() + '/cart';
     let res;
-    try{
+    try {
         res = await myGetJson(url);
         return res;
     } catch (e) {
@@ -13,21 +12,19 @@ export async function getCart()
     }
 }
 
-export async function addToCart(bookId)
-{
+export async function addToCart(bookId) {
     let url = getApiUrl() + `/cart?bookId=${bookId}`;
-    try{
+    try {
         return await myPut(url);
     } catch (e) {
         throw e;
     }
 }
 
-export async function changeCart(id, number)
-{
+export async function changeCart(id, number) {
     let url = getApiUrl() + `/cart/${id}?number=${number}`;
     let res;
-    try{
+    try {
         res = await myPut(url);
         return res;
     } catch (e) {
@@ -36,11 +33,10 @@ export async function changeCart(id, number)
     }
 }
 
-export async function deleteFromCart(id)
-{
+export async function deleteFromCart(id) {
     let url = getApiUrl() + `/cart/${id}`;
     let res;
-    try{
+    try {
         res = await myDelete(url);
         return res;
     } catch (e) {

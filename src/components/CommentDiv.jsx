@@ -27,7 +27,6 @@ function CommentListItem({item, commentData, setCommentData,curReply,setCurReply
                               key="list-vertical-like-o"
                               className="likeIcon"
                               onClick={() => {
-                                  console.log("aha??");
                                   if (item.liked) {
                                       unlikeComment(item.id)
                                           .then(() => {
