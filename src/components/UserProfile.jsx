@@ -203,7 +203,6 @@ export default function UserProfile() {
                                     setAvatarState("normal");
                                     getMe().then(info => {
                                         setUser(info);
-                                        sessionStorage.setItem("userInfo", JSON.stringify(info));
                                         window.location.reload();
                                     });
                                 }}
