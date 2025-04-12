@@ -9,6 +9,7 @@ import OrderPage from "../pages/OrderPage";
 import BookPage from "../pages/BookPage";
 import Error404Page from "../pages/Error404Page";
 
+
 function BookPageWrapper() {
     const { id } = useParams();
     return <BookPage bookId={Number(id)} />;
@@ -25,7 +26,8 @@ export default function AppRoutes() {
                 <Route path="/me" element={<UserPage/>} />
                 <Route path="/cart" element={<CartPage/>} />
                 <Route path="/order" element={<OrderPage/>} />
-                <Route path="/order" element={<OrderPage/>} />
+                {/*当用户访问类似 /book/123 的路径时，:id 会捕获 123 作为参数*/}
+                {/*在组件中可以通过 useParams 钩子获取这个参数的值*/}
                 <Route path="/book/:id" element={<BookPageWrapper />} />
                 <Route path="*" element={<Error404Page/>} />
             </Routes>

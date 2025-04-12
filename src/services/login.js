@@ -1,5 +1,5 @@
 
-import {myPost,getApiUrl} from "./common.js";
+import {myPost, getApiUrl, myPut} from "./common.js";
 
 
 export async function login(username, userPassword) {
@@ -9,20 +9,20 @@ export async function login(username, userPassword) {
         password: userPassword
     };
     try {
-        const response = await myPost(urlPath,loginObject);
-        console.log(`用户${username}，${response.message}`);
-        if(response.ok){
-            sessionStorage.setItem("user",username);
-            return true;
-        }
+        await myPost(urlPath,loginObject);
+        return true;
     } catch (e) {
         console.error(e);
     }
     return false;
 }
 
-export function isUserLoggedIn()
-{
-    const curUser = sessionStorage.getItem("user");
-    return (curUser !== null)
+export async function logout(){
+    const urlPath = `${getApiUrl()}/logout`;
+    try {
+        await myPut(urlPath);
+    } catch (e) {
+        console.error(e);
+    }
+    return false;
 }

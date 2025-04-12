@@ -5,6 +5,7 @@ import { getApiUrl } from "../services/common";
 import {getMe} from "../services/userAction";
 import {UserContext} from "../services/context";
 import {PageLoading} from "@ant-design/pro-components";
+import {logout} from "../services/login";
 
 const { Header,Sider, Content, Footer } = Layout;
 
@@ -69,9 +70,9 @@ export default function UserLayout({ children }) {
                     key: '3',
                     label: (
                         <div onClick={() => {
-                            localStorage.removeItem("token");
-                            setUser(null);
-                            navigate("/login",{state:{"loginStatus":"UnLoggedIn"}});
+                            logout().then(()=>{
+                                navigate("/login",{state:{"loginStatus":"UnLoggedIn"}});
+                            });
                         }} style={{cursor: 'pointer'}}>
                             退出登录
                         </div>
