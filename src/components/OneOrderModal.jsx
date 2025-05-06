@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {Modal, Button, Form, Input, Select, message} from 'antd';
 import { getAddresses } from "../services/userAction";
-import {addOrder} from "../services/orderAction";
+import {addOneOrder, addOrder} from "../services/orderAction";
 import {deleteFromCart} from "../services/cartAction";
 
-export default function OrderModal({selectedList,setSelectedList}) {
+export default function OneOrderModal({bookId,number}) {
     const [messageApi, contextHolder] = message.useMessage();
     const [open, setOpen] = useState(false);
     const [form] = Form.useForm();
@@ -28,16 +28,11 @@ export default function OrderModal({selectedList,setSelectedList}) {
             messageApi.error("请填写完整信息!");
             return;
         }
-        if(selectedList.length === 0){
-            messageApi.warning("请选择商品!");
-            return;
-        }
-        addOrder({
+        addOneOrder({
             address: address,
             tel: tel,
             receiver: receiver,
-            itemIds: selectedList
-        }).then((res)=>{
+        },bookId,number).then((res)=>{
             if(!res.ok){
                 messageApi.error(`下单失败，原因: ${res.message}`);
                 setOpen(false);
@@ -54,12 +49,6 @@ export default function OrderModal({selectedList,setSelectedList}) {
                 address: "",
                 tel: "",
                 receiver: ""
-            });
-            setSelectedList([]);
-            deleteFromCart(selectedList).then(()=>{
-                console.log("delete from cart success");
-                //刷新页面
-                window.location.reload();
             });
         });
     };
@@ -82,7 +71,7 @@ export default function OrderModal({selectedList,setSelectedList}) {
     return (
         <>
             {contextHolder}
-            <Button type="primary" onClick={showModal} style={{width:"15%"}}>
+            <Button size="large" type="primary" onClick={showModal}>
                 立即下单
             </Button>
             <Modal title="选择收货人" open={open} onOk={handleOk} onCancel={handleCancel}>

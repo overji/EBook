@@ -125,6 +125,16 @@ export default function RegisterForm(){
                 </Form.Item>
 
                 <Form.Item
+                    name="username"
+                    label="用户名"
+                    className="RegisterFormItem"
+                    tooltip="我们如何称呼您?"
+                    rules={[{ required: true, message: '请输入昵称!', whitespace: true }]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
                     name="nickname"
                     label="昵称"
                     className="RegisterFormItem"
@@ -134,47 +144,35 @@ export default function RegisterForm(){
                     <Input />
                 </Form.Item>
 
-                <Form.Item
-                    name="phone"
-                    label="电话号码"
-                    className="RegisterFormItem"
-                    rules={[{ required: true, message: '请输入电话号码!' }]}
-                >
-                    <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
-                </Form.Item>
+                {/*<Form.Item*/}
+                {/*    name="phone"*/}
+                {/*    label="电话号码"*/}
+                {/*    className="RegisterFormItem"*/}
+                {/*    rules={[{ required: true, message: '请输入电话号码!' }]}*/}
+                {/*>*/}
+                {/*    <Input addonBefore={prefixSelector} style={{ width: '100%' }} />*/}
+                {/*</Form.Item>*/}
 
-                <Form.Item
-                    name="gender"
-                    label="性别"
-                    className="RegisterFormItem"
-                    rules={[{ required: true, message: '请选择性别!' }]}
-                >
-                    <Select placeholder="请选择性别">
-                        <Option value="male">Male</Option>
-                        <Option value="female">Female</Option>
-                    </Select>
-                </Form.Item>
-
-                <Form.Item
-                    label="验证码"
-                    extra="确认您是人类."
-                    className="RegisterFormItem"
-                >
-                    <Row gutter={8}>
-                        <Col span={12}>
-                            <Form.Item
-                                name="captcha"
-                                noStyle
-                                rules={[{ required: true, message: '请输入验证码!' }]}
-                            >
-                                <Input />
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Button>获取验证码</Button>
-                        </Col>
-                    </Row>
-                </Form.Item>
+                {/*<Form.Item*/}
+                {/*    label="验证码"*/}
+                {/*    extra="确认您是人类."*/}
+                {/*    className="RegisterFormItem"*/}
+                {/*>*/}
+                {/*    <Row gutter={8}>*/}
+                {/*        <Col span={12}>*/}
+                {/*            <Form.Item*/}
+                {/*                name="captcha"*/}
+                {/*                noStyle*/}
+                {/*                rules={[{ required: true, message: '请输入验证码!' }]}*/}
+                {/*            >*/}
+                {/*                <Input />*/}
+                {/*            </Form.Item>*/}
+                {/*        </Col>*/}
+                {/*        <Col span={12}>*/}
+                {/*            <Button>获取验证码</Button>*/}
+                {/*        </Col>*/}
+                {/*    </Row>*/}
+                {/*</Form.Item>*/}
 
                 <Form.Item
                     name="agreement"

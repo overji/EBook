@@ -21,3 +21,14 @@ export async function addOrder(orderInfo)
         return null;
     }
 }
+
+export async function addOneOrder(orderInfo,bookId,number)
+{
+    let url = getApiUrl() + `/order/${bookId}?number=${number}`;
+    try{
+        return await myPost(url, orderInfo);
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}

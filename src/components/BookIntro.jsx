@@ -1,4 +1,4 @@
-import {Image, Row, Col, Typography, Divider, Spin, Button, message,  Pagination} from 'antd'
+import {Image, Row, Col, Typography, Divider, Spin, Button, message, Pagination, InputNumber} from 'antd'
 import {getBookWithId} from "../services/getBooks";
 import {useEffect, useState} from "react";
 import "../stylesheets/BookIntro.css"
@@ -7,12 +7,16 @@ import {addBookComment, getBookComments} from "../services/commentAction";
 import {useSearchParams} from "react-router-dom";
 import CommentDiv from "./CommentDiv";
 import ReplyInput from "./ReplyInput";
+import {BugFilled} from "@ant-design/icons";
+import OrderModal from "./OrderModal";
+import OneOrderModal from "./OneOrderModal";
 
 const {Title,Text} = Typography;
 
 
 function BookPurchaseDiv({bookInfo}) {
     const [messageApi, contextHolder] = message.useMessage();
+    const [number,setNumber] = useState(1);
     return(
         <Row>
             {contextHolder}
@@ -44,17 +48,19 @@ function BookPurchaseDiv({bookInfo}) {
                     销量: <b>{bookInfo.sales}</b>
                 </Text>
                 <Text>
-                    标签: {bookInfo.tags.map((tagInfo,_)=>{
+                    标签: {bookInfo.tags.map((tagInfo, index) => {
                         return (
-                                <Text keyboard
-                                      style={{
-                                          marginRight:"5px"
-                                      }}
-                                >
-                                    {tagInfo.name}
-                                </Text>
-                        )
-                })}
+                            <Text
+                                key={tagInfo.id || index} // Use a unique key
+                                keyboard
+                                style={{
+                                    marginRight: "5px"
+                                }}
+                            >
+                                {tagInfo.name}
+                            </Text>
+                        );
+                    })}
                 </Text>
                 <Divider orientation="left">
                     <Text strong>
@@ -69,14 +75,33 @@ function BookPurchaseDiv({bookInfo}) {
                         特价:{bookInfo.price/100}￥  (-40%)
                     </Title>
                 </Row>
+                <Row>
+                    <InputNumber
+                        min={1}
+                        defaultValue={1}
+                        addonBefore={"购买数量"}
+                        onChange={(val)=>{
+                            setNumber(val);
+                        }}
+                    />
+                </Row>
                 <Divider></Divider>
                 <Row>
-                    <Button size="large" type="primary" onClick={()=>{
-                        addToCart(bookInfo.id)
-                            .then(() => { messageApi.success("成功加入购物车") })
+                    <Button size="large" type="primary"
+                            style={{marginRight:"25px"}}
+                            onClick={()=>{
+                        addToCart(bookInfo.id,number)
+                            .then((res) => {
+                                if(res.ok){
+                                    messageApi.success("成功加入购物车");
+                                } else {
+                                    messageApi.error(`加入购物车失败，原因:${res.message}`);
+                                }
+
+                            })
                             .catch((e) => { messageApi.error("出错了!请联系管理员") })
                     }}>加入购物车</Button>
-                    <Button size="large" style={{marginLeft:"40px"}}>直接购买</Button>
+                    <OneOrderModal style={{marginLeft:"400px"}} number={number} bookId={bookInfo.id}></OneOrderModal>
                 </Row>
             </Col>
         </Row>
@@ -162,7 +187,7 @@ export default function BookIntro({bookId})
                 <Row>
                     <Pagination
                         current={pageIndex+1}
-                        total={commentInfo.total}
+                        total={commentInfo.total * pageSize}
                         pageSize={pageSize}
                         onChange={pageOnChange}
                     />

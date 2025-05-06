@@ -12,8 +12,8 @@ export async function getCart() {
     }
 }
 
-export async function addToCart(bookId) {
-    let url = getApiUrl() + `/cart?bookId=${bookId}`;
+export async function addToCart(bookId,number=1) {
+    let url = getApiUrl() + `/cart?bookId=${bookId}&number=${number}`;
     try {
         return await myPut(url);
     } catch (e) {
