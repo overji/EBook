@@ -19,6 +19,28 @@ export async function changePassword(password)
     return false;
 }
 
+export async function register(username,nickname,password,email){
+    let url = `${getApiUrl()}/user/register`
+    let res;
+    try{
+        res = await myPost(url,{
+            username:username,
+            nickname:nickname,
+            password:password,
+            email:email
+        });
+        if(res.ok)
+        {
+            console.log("成功注册");
+            return true;
+        }
+    } catch (e) {
+        console.error(e);
+        res = {};
+    }
+    return false;
+}
+
 export async function changeIntroduction(introduction)
 {
     let url = `${getApiUrl()}/user/me/introduction`
@@ -116,6 +138,9 @@ export async function getMe()
     try{
         res = await myGetJson(url)
         console.log(`res:${JSON.stringify(res)}`);
+        if(res.failed){
+            return undefined;
+        }
     } catch (e) {
         console.error(e);
         res = undefined;

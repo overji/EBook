@@ -8,45 +8,61 @@ import {
     Input,
     Row,
     Select,
-    Card, Typography
+    Card, Typography, message
 } from 'antd';
 import "../stylesheets/Logins.css";
+import {register} from "../services/userAction";
+import {useNavigate} from "react-router-dom";
 
-const { Option } = Select;
+const {Option} = Select;
 
 const formItemLayout = {
     labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
+        xs: {span: 24},
+        sm: {span: 8},
     },
     wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
+        xs: {span: 24},
+        sm: {span: 16},
     },
 };
 
 const tailFormItemLayout = {
-        wrapperCol: {
-            xs: {
-                span: 24 },
-            offset: 0,
+    wrapperCol: {
+        xs: {
+            span: 24
         },
-        sm: {
-            span: 16,
-            offset: 8,
-        },
+        offset: 0,
+    },
+    sm: {
+        span: 16,
+        offset: 8,
+    },
 }
 
-export default function RegisterForm(){
+export default function RegisterForm() {
     const [form] = Form.useForm();
+    const [messageApi, contextHolder] = message.useMessage();
+    const navigate = useNavigate();
 
     const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
+        register(values.username,
+            values.nickname,
+            values.password,
+            values.email
+        ).then(res => {
+            if (res) {
+                messageApi.success("注册成功");
+                navigate("/login",{state:{"loginStatus":"UnLoggedIn"}});
+            } else {
+                messageApi.error("注册失败");
+            }
+        })
     };
 
     const prefixSelector = (
         <Form.Item name="prefix" noStyle>
-            <Select style={{ width: 70 }}>
+            <Select style={{width: 70}}>
                 <Option value="86">+86</Option>
                 <Option value="87">+87</Option>
             </Select>
@@ -55,7 +71,8 @@ export default function RegisterForm(){
 
     return (
         <Card className="RegisterCard">
-            <Typography.Title level={1} style={{ textAlign: 'center', marginBottom: "7%" }}>
+            {contextHolder}
+            <Typography.Title level={1} style={{textAlign: 'center', marginBottom: "7%"}}>
                 电子书城注册
             </Typography.Title>
             <Form
@@ -63,8 +80,8 @@ export default function RegisterForm(){
                 form={form}
                 name="register"
                 onFinish={onFinish}
-                initialValues={{ residence: ['zhejiang', 'hangzhou', 'xihu'], prefix: '86' }}
-                style={{ maxWidth: 600 }}
+                initialValues={{residence: ['zhejiang', 'hangzhou', 'xihu'], prefix: '86'}}
+                style={{maxWidth: 600}}
                 scrollToFirstError
             >
                 <Form.Item
@@ -82,7 +99,7 @@ export default function RegisterForm(){
                         },
                     ]}
                 >
-                    <Input />
+                    <Input/>
                 </Form.Item>
 
                 <Form.Item
@@ -97,7 +114,7 @@ export default function RegisterForm(){
                     ]}
                     hasFeedback
                 >
-                    <Input.Password />
+                    <Input.Password/>
                 </Form.Item>
 
                 <Form.Item
@@ -111,7 +128,7 @@ export default function RegisterForm(){
                             required: true,
                             message: '请确认你的密码!',
                         },
-                        ({ getFieldValue }) => ({
+                        ({getFieldValue}) => ({
                             validator(_, value) {
                                 if (!value || getFieldValue('password') === value) {
                                     return Promise.resolve();
@@ -121,7 +138,7 @@ export default function RegisterForm(){
                         }),
                     ]}
                 >
-                    <Input.Password />
+                    <Input.Password/>
                 </Form.Item>
 
                 <Form.Item
@@ -129,9 +146,9 @@ export default function RegisterForm(){
                     label="用户名"
                     className="RegisterFormItem"
                     tooltip="我们如何称呼您?"
-                    rules={[{ required: true, message: '请输入昵称!', whitespace: true }]}
+                    rules={[{required: true, message: '请输入昵称!', whitespace: true}]}
                 >
-                    <Input />
+                    <Input/>
                 </Form.Item>
 
                 <Form.Item
@@ -139,9 +156,9 @@ export default function RegisterForm(){
                     label="昵称"
                     className="RegisterFormItem"
                     tooltip="我们如何称呼您?"
-                    rules={[{ required: true, message: '请输入昵称!', whitespace: true }]}
+                    rules={[{required: true, message: '请输入昵称!', whitespace: true}]}
                 >
-                    <Input />
+                    <Input/>
                 </Form.Item>
 
                 {/*<Form.Item*/}

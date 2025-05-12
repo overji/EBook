@@ -41,11 +41,6 @@ export default function OrderModal({selectedList,setSelectedList}) {
             if(!res.ok){
                 messageApi.error(`下单失败，原因: ${res.message}`);
                 setOpen(false);
-                form.setFieldsValue({
-                    address: "",
-                    tel: "",
-                    receiver: ""
-                });
                 return;
             }
             messageApi.success("下单成功!");
