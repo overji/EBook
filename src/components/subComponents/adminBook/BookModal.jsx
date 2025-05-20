@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {Modal, Button, Form, Input, Select, message} from 'antd';
-import { getAddresses } from "../services/userAction";
-import {addOrder} from "../services/orderAction";
-import {deleteFromCart} from "../services/cartAction";
+import {getAddresses} from "../../../services/userAction";
+import {addOrder} from "../../../services/orderAction";
+import {deleteFromCart} from "../../../services/cartAction";
+import ImageUpload from "../common/ImageUpload";
+import {getApiUrl} from "../../../services/common";
+import {deleteCoverWithURL} from "../../../services/getBooks";
 
-export default function OrderModal({selectedList,setSelectedList}) {
+export default function BookModal({selectedList, setSelectedList, isAdd = true, bookId = -1}) {
     const [messageApi, contextHolder] = message.useMessage();
     const [open, setOpen] = useState(false);
     const [form] = Form.useForm();
     const [myAddress, setMyAddress] = useState([]);
+    const [inputDisabled, setInputDisabled] = useState(false);
+    const [imageURL,setImageURL] = useState("");
 
     useEffect(() => {
         getAddresses().then((res) => {
@@ -24,11 +29,11 @@ export default function OrderModal({selectedList,setSelectedList}) {
         let receiver = form.getFieldValue('receiver');
         let tel = form.getFieldValue('tel');
         let address = form.getFieldValue('address');
-        if(!receiver || !tel || !address){
+        if (!receiver || !tel || !address) {
             messageApi.error("请填写完整信息!");
             return;
         }
-        if(selectedList.length === 0){
+        if (selectedList.length === 0) {
             messageApi.warning("请选择商品!");
             return;
         }
@@ -37,8 +42,8 @@ export default function OrderModal({selectedList,setSelectedList}) {
             tel: tel,
             receiver: receiver,
             itemIds: selectedList
-        }).then((res)=>{
-            if(!res.ok){
+        }).then((res) => {
+            if (!res.ok) {
                 messageApi.error(`下单失败，原因: ${res.message}`);
                 setOpen(false);
                 return;
@@ -51,7 +56,7 @@ export default function OrderModal({selectedList,setSelectedList}) {
                 receiver: ""
             });
             setSelectedList([]);
-            deleteFromCart(selectedList).then(()=>{
+            deleteFromCart(selectedList).then(() => {
                 console.log("delete from cart success");
                 //刷新页面
                 window.location.reload();
@@ -77,57 +82,69 @@ export default function OrderModal({selectedList,setSelectedList}) {
     return (
         <>
             {contextHolder}
-            <Button type="primary" onClick={showModal} style={{width:"15%"}}>
+            <Button type="primary" onClick={showModal} style={{width: "15%"}}>
                 立即下单
             </Button>
             <Modal title="选择收货人" open={open} onOk={handleOk} onCancel={handleCancel}>
                 <Form
                     form={form}
                     name="basic"
-                    labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 16 }}
-                    style={{ maxWidth: 600 }}
-                    initialValues={{ remember: true }}
+                    labelCol={{span: 8}}
+                    wrapperCol={{span: 16}}
+                    style={{maxWidth: 600}}
+                    initialValues={{remember: true}}
                     autoComplete="off"
                 >
                     <Form.Item
                         label="常用收货地址"
                         name="selectAddress"
-                        rules={[{ required: true, message: '请选择常用收货地址!' }]}
+                        rules={[{required: true, message: '请上传封面或输入图片URL!'}]}
                     >
-                        <Select
-                            showSearch
-                            placeholder="选择常用收货地址"
-                            options={[
-                                { value: 'header', label: '地址 电话 收货人', disabled: true },
-                                ...myAddress.map((item) => ({
-                                    value: item.id,
-                                    label: `${item.address} ${item.tel} ${item.receiver}`
-                                }))
-                            ]}
-                            onChange={handleSelectChange}
+                        <ImageUpload
+                            onUploadSuccess={(url) => {
+                                setImageURL(`${getApiUrl()}/${url}`);
+                                setInputDisabled(true);
+                            }}
+                            onFileRemove={()=>{
+                                deleteCoverWithURL(imageURL).then((res)=>{
+                                    if(res.ok){
+                                        messageApi.success("删除成功");
+                                    }
+                                    else{
+                                        messageApi.error("删除失败");
+                                    }
+                                });
+                                setImageURL("");
+                                setInputDisabled(false);
+                            }}
+                        />
+                        <Input
+                            placeholder="在这里填入URL"
+                            value={imageURL}
+                            onChange={(e) => setImageURL(e.target.value)} // 同步用户输入
+                            disabled={inputDisabled}
                         />
                     </Form.Item>
                     <Form.Item
                         label="收货地址"
                         name="address"
-                        rules={[{ required: true, message: '请输入收货地址!' }]}
+                        rules={[{required: true, message: '请输入收货地址!'}]}
                     >
-                        <Input />
+                        <Input/>
                     </Form.Item>
                     <Form.Item
                         label="电话号码"
                         name="tel"
-                        rules={[{ required: true, message: '请输入电话号码!' }]}
+                        rules={[{required: true, message: '请输入电话号码!'}]}
                     >
-                        <Input />
+                        <Input/>
                     </Form.Item>
                     <Form.Item
                         label="收货人"
                         name="receiver"
-                        rules={[{ required: true, message: '请输入收货人!' }]}
+                        rules={[{required: true, message: '请输入收货人!'}]}
                     >
-                        <Input />
+                        <Input/>
                     </Form.Item>
                 </Form>
             </Modal>

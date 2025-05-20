@@ -1,5 +1,4 @@
-
-import {myPost, getApiUrl, myPut} from "./common.js";
+import {getApiUrl, myPost, myPut} from "./common.js";
 
 
 export async function login(username, userPassword) {
@@ -9,12 +8,11 @@ export async function login(username, userPassword) {
         password: userPassword
     };
     try {
-        await myPost(urlPath,loginObject);
-        return true;
+        return await myPost(urlPath, loginObject)
     } catch (e) {
         console.error(e);
     }
-    return false;
+    return undefined;
 }
 
 export async function logout(){

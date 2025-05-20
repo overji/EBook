@@ -2,7 +2,7 @@ import {getCart, changeCart, addToCart, deleteFromCart} from "../services/cartAc
 
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Flex, InputNumber, Row, Table, Typography} from 'antd';
-import OrderModal from "./OrderModal";
+import OrderModal from "./subComponents/userOrder/OrderModal";
 
 const {Text} = Typography;
 

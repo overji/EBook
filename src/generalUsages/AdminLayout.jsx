@@ -10,40 +10,39 @@ import {logout} from "../services/login";
 const { Header,Sider, Content, Footer } = Layout;
 
 const routeBreadcrumbNameMap = {
-    '/': '首页',
+    '/': '书籍',
+    '/admin': '管理员',
     '/login': '登录',
     '/register': '注册',
     '/me': '个人中心',
-    '/cart': '购物车',
     '/order': '订单',
-    '/book': '图书详情',
 };
 
-export default function UserLayout({ children }) {
+export default function AdminLayout({ children }) {
     const location = useLocation();
     const navigate = useNavigate();
     const [user,setUser] = useState(null);
     const items = [
         {
             key: 0,
-            label: `首页`,
+            label: `书籍管理`,
             onClick: () => navigate("/")
         },
         {
             key: 1,
-            label: `个人`,
-            onClick: () => navigate("/me")
+            label: `用户管理`,
+            onClick: () => navigate("/admin/user")
         },
         {
             key: 2,
-            label: `购物车`,
-            onClick: () => navigate("/cart")
+            label: `订单管理`,
+            onClick: () => navigate("/admin/order")
         },
         {
             key: 3,
-            label: `订单`,
-            onClick: () => navigate("/order")
-        }
+            label: `个人`,
+            onClick: () => navigate("/admin/me")
+        },
     ];
 
     function getDropItems(user) {
@@ -54,7 +53,7 @@ export default function UserLayout({ children }) {
                     label: (
                         <div
                             onClick={() => {
-                                navigate("/me");
+                                navigate("/admin/me");
                             }}
                             style={{cursor: 'pointer' }}
                         >
@@ -64,7 +63,7 @@ export default function UserLayout({ children }) {
                 },
                 {
                     key: '2',
-                    label:`余额：${user.balance/100}￥`
+                    label:`余额：∞￥`
                 },
                 {
                     key: '3',
@@ -112,8 +111,8 @@ export default function UserLayout({ children }) {
                 if(res === undefined){
                     navigate("/login",{state:{"loginStatus":"UnLoggedIn"}});
                 }
-                if(res.privilege !== null && res.privilege > 0){
-                    navigate("/admin");
+                if(res.privilege === 0){
+                    navigate("/login",{state:{"loginStatus":"UnAuthorized"}});
                 }
                 setUser(res)
             })
@@ -121,47 +120,47 @@ export default function UserLayout({ children }) {
 
 
     return (
-            <Layout className="DefaultLayout">
-                <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                    {/*space-between 两端对齐*/}
-                    <button className="demoLogo" onClick={() => navigate("/")}>
-                        电子书城
-                    </button>
+        <Layout className="DefaultLayout">
+            <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                {/*space-between 两端对齐*/}
+                <button className="demoLogo" onClick={() => navigate("/")}>
+                    电子书城
+                </button>
 
-                    {user && (
-                        <Dropdown menu={getDropItems(user)} style={{ marginLeft: 'auto' }}>
-                            <Avatar size={48} icon={<img src={`${getApiUrl()}/user/avatars/${user.avatar}`} alt={`${user.nickname}`} />} />
-                        </Dropdown>
+                {user && (
+                    <Dropdown menu={getDropItems(user)} style={{ marginLeft: 'auto' }}>
+                        <Avatar size={48} icon={<img src={`${getApiUrl()}/user/avatars/${user.avatar}`} alt={`${user.nickname}`} />} />
+                    </Dropdown>
+                )}
+            </Header>
+            <Layout>
+                <Sider width={200}>
+                    <Menu
+                        mode="inline"
+                        defaultSelectedKeys={['0']}
+                        items={items}
+                        selectedKeys={[`${selectedKey}`]}
+                        style={{ height: '100%', borderRight: 0 }}
+                    />
+                </Sider>
+                <Content style={{ padding: '0 48px', flex: '1 0 auto' }}>
+                    {user ? (
+                        <UserContext.Provider value={{user,setUser}}>
+                            <Breadcrumb style={{ margin: '16px 0' }}>
+                                {breadcrumbItems}
+                            </Breadcrumb>
+                            {children}
+                        </UserContext.Provider>
+                    ) : (
+                        <PageLoading />
                     )}
-                </Header>
-                <Layout>
-                    <Sider width={200}>
-                        <Menu
-                            mode="inline"
-                            defaultSelectedKeys={['0']}
-                            items={items}
-                            selectedKeys={[`${selectedKey}`]}
-                            style={{ height: '100%', borderRight: 0 }}
-                        />
-                    </Sider>
-                    <Content style={{ padding: '0 48px', flex: '1 0 auto' }}>
-                        {user ? (
-                            <UserContext.Provider value={{user,setUser}}>
-                                <Breadcrumb style={{ margin: '16px 0' }}>
-                                    {breadcrumbItems}
-                                </Breadcrumb>
-                                {children}
-                            </UserContext.Provider>
-                        ) : (
-                            <PageLoading />
-                        )}
-                    </Content>
-                </Layout>
-                <Footer style={{ textAlign: 'center', flexShrink: 0 }}>
-                    EBook ©{new Date().getFullYear()} Created by Ji.
-                    <br />
-                    Thanks for Ant Design.
-                </Footer>
+                </Content>
             </Layout>
+            <Footer style={{ textAlign: 'center', flexShrink: 0 }}>
+                EBook ©{new Date().getFullYear()} Created by Ji.
+                <br />
+                Thanks for Ant Design.
+            </Footer>
+        </Layout>
     );
 }

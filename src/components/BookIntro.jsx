@@ -5,11 +5,11 @@ import "../stylesheets/BookIntro.css"
 import {addToCart} from "../services/cartAction";
 import {addBookComment, getBookComments} from "../services/commentAction";
 import {useSearchParams} from "react-router-dom";
-import CommentDiv from "./CommentDiv";
-import ReplyInput from "./ReplyInput";
+import CommentDiv from "./subComponents/userBook/CommentDiv";
+import ReplyInput from "./subComponents/userBook/ReplyInput";
 import {BugFilled} from "@ant-design/icons";
-import OrderModal from "./OrderModal";
-import OneOrderModal from "./OneOrderModal";
+import OrderModal from "./subComponents/userOrder/OrderModal";
+import OneOrderModal from "./subComponents/userBook/OneOrderModal";
 
 const {Title,Text} = Typography;
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
-import { getApiUrl } from '../services/common';
+import { getApiUrl } from '../../../services/common';
 import ImgCrop from "antd-img-crop";
 
 const beforeUpload = (file) => {

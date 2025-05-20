@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Button, Form, Input, Modal, message } from 'antd';
-import { UserContext } from "../services/context";
-import {changePassword} from '../services/userAction'
+import { UserContext } from "../../../services/context";
+import {changePassword} from '../../../services/userAction'
 
 export default function ChangePassword() {
     const { user, setUser } = useContext(UserContext);

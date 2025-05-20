@@ -9,11 +9,11 @@ import {
     getMe
 } from "../services/userAction";
 import "../stylesheets/User.css";
-import AvatarWithUpload from "../components/AvatarWithUpload";
+import AvatarWithUpload from "./subComponents/me/AvatarWithUpload";
 import { EditOutlined } from "@ant-design/icons";
 import { UserContext } from "../services/context";
 import {PageLoading} from "@ant-design/pro-components";
-import ChangePassword from "./ChangePassword";
+import ChangePassword from "./subComponents/me/ChangePassword";
 
 const { Title, Paragraph } = Typography;
 

@@ -1,4 +1,4 @@
-import BookPurchaseCard from "../components/BookPurchaseCard";
+import BookPurchaseCard from "../components/subComponents/userBook/BookPurchaseCard";
 import {useState, useEffect} from "react";
 import {getAllTags, searchBooks} from "../services/getBooks";
 import {Col, Pagination, Row, Input, Empty, Select} from "antd";
@@ -37,6 +37,11 @@ export default function HomePage() {
     useEffect(() => {
         async function fetchBook() {
             const bookData = await searchBooks(tag, keyword, curIndex, 8);
+            //如果bookData不是列表，那么就返回空列表
+            if(bookData.status === 401){
+                setBooks([]);
+                return;
+            }
             setBooks(bookData);
             setTotalPages(bookData.total);
         }
@@ -47,6 +52,11 @@ export default function HomePage() {
     useEffect(() => {
         async function fetchTags() {
             const tagsData = await getAllTags();
+            //如果tagsData不是列表，那么就返回空列表
+            if(tagsData.status === 401){
+                setAllTags([]);
+                return;
+            }
             setAllTags(tagsData);
         }
 

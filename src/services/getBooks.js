@@ -1,4 +1,4 @@
-import {myGetJson,getApiUrl} from "./common.js";
+import {myGetJson, getApiUrl, myDelete} from "./common.js";
 
 export async function getAllTags()
 {
@@ -17,6 +17,17 @@ export async function getBookWithId(id){
     let ans = {};
     try{
         ans = await myGetJson(url)
+        console.log(ans);
+    } catch (e) {
+        console.error(e);
+    }
+    return ans;
+}
+
+export async function deleteCoverWithURL(url){
+    let ans = {};
+    try{
+        ans = await myDelete(url);
         console.log(ans);
     } catch (e) {
         console.error(e);

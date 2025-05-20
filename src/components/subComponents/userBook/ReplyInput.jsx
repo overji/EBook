@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {Button, Input, Row, Space, message} from 'antd';
-import "../stylesheets/Reply.css"
+import "../../../stylesheets/Reply.css"
 export default function ReplyInput({textHolder="发布一条友善的评论",onReply=null,className=""}){
     const [text,setText] = useState("");
     const [messageApi,contextHolder] = message.useMessage();

@@ -55,7 +55,7 @@ export default function RegisterForm() {
                 messageApi.success("注册成功");
                 navigate("/login",{state:{"loginStatus":"UnLoggedIn"}});
             } else {
-                messageApi.error("注册失败");
+                messageApi.error("注册失败，用户名已被占用");
             }
         })
     };

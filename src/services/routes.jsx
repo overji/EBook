@@ -8,6 +8,7 @@ import CartPage from "../pages/CartPage";
 import OrderPage from "../pages/OrderPage";
 import BookPage from "../pages/BookPage";
 import Error404Page from "../pages/Error404Page";
+import AdminBookPage from "../pages/AdminBookPage";
 
 
 function BookPageWrapper() {
@@ -30,6 +31,7 @@ export default function AppRoutes() {
                 {/*在组件中可以通过 useParams 钩子获取这个参数的值*/}
                 <Route path="/book/:id" element={<BookPageWrapper />} />
                 <Route path="*" element={<Error404Page/>} />
+                <Route path="/admin" element={<AdminBookPage/>}/>
             </Routes>
         </Router>
     );

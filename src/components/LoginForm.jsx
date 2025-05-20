@@ -20,7 +20,11 @@ export default function MyLoginForm({messageApi}){
         let status = await login(values.username, values.password)
         if(status)
         {
-            navigate("/",{ state: { loginStatus: "LoggedIn" } })
+            if(status.isAdmin){
+                navigate("/admin",{ state: { loginStatus: "LoggedIn" } })
+            } else {
+                navigate("/",{ state: { loginStatus: "LoggedIn" } })
+            }
         }
         else
         {

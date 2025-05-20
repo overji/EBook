@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {Modal, Button, Form, Input, Select, message} from 'antd';
-import { getAddresses } from "../services/userAction";
-import {addOneOrder, addOrder} from "../services/orderAction";
-import {deleteFromCart} from "../services/cartAction";
+import { getAddresses } from "../../../services/userAction";
+import {addOneOrder, addOrder} from "../../../services/orderAction";
+import {deleteFromCart} from "../../../services/cartAction";
 
 export default function OneOrderModal({bookId,number}) {
     const [messageApi, contextHolder] = message.useMessage();
