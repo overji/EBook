@@ -1,9 +1,9 @@
 import {Image, Row, Col, Typography, Divider, Spin, Button, message, Pagination, InputNumber} from 'antd'
-import {getBookWithId} from "../services/getBooks";
+import {getBookWithId} from "../services/bookActions";
 import {useEffect, useState} from "react";
 import "../stylesheets/BookIntro.css"
-import {addToCart} from "../services/cartAction";
-import {addBookComment, getBookComments} from "../services/commentAction";
+import {addToCart} from "../services/cartActions";
+import {addBookComment, getBookComments} from "../services/commentActions";
 import {useSearchParams} from "react-router-dom";
 import CommentDiv from "./subComponents/userBook/CommentDiv";
 import ReplyInput from "./subComponents/userBook/ReplyInput";

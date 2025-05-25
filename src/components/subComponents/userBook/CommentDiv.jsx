@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {LikeFilled, LikeOutlined, MessageOutlined, StarOutlined} from '@ant-design/icons';
 import {Avatar, Button, List, Row, Space, Typography} from 'antd';
-import {getAvatarFullUrl} from "../../../services/userAction";
+import {getAvatarFullUrl} from "../../../services/userActions";
 import "../../../stylesheets/Comment.css"
-import {likeComment, replyComment, unlikeComment} from "../../../services/commentAction";
+import {likeComment, replyComment, unlikeComment} from "../../../services/commentActions";
 import ReplyInput from "./ReplyInput";
 
 const {Text} = Typography;

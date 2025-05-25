@@ -7,7 +7,7 @@ import {
     deleteMyAddress,
     getAddresses,
     getMe
-} from "../services/userAction";
+} from "../services/userActions";
 import "../stylesheets/User.css";
 import AvatarWithUpload from "./subComponents/me/AvatarWithUpload";
 import { EditOutlined } from "@ant-design/icons";

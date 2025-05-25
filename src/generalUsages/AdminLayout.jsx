@@ -2,7 +2,7 @@ import React, {useEffect,useState} from 'react';
 import { useLocation, useNavigate} from "react-router-dom";
 import {Avatar, Breadcrumb, Dropdown, Layout, Menu} from "antd";
 import { getApiUrl } from "../services/common";
-import {getMe} from "../services/userAction";
+import {getMe} from "../services/userActions";
 import {UserContext} from "../services/context";
 import {PageLoading} from "@ant-design/pro-components";
 import {logout} from "../services/login";
@@ -111,8 +111,8 @@ export default function AdminLayout({ children }) {
                 if(res === undefined){
                     navigate("/login",{state:{"loginStatus":"UnLoggedIn"}});
                 }
-                if(res.privilege === 0){
-                    navigate("/login",{state:{"loginStatus":"UnAuthorized"}});
+                if(res && res.privilege === 0){
+                    navigate("/");
                 }
                 setUser(res)
             })

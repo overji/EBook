@@ -11,7 +11,7 @@ import {
     Card, Typography, message
 } from 'antd';
 import "../stylesheets/Logins.css";
-import {register} from "../services/userAction";
+import {register} from "../services/userActions";
 import {useNavigate} from "react-router-dom";
 
 const {Option} = Select;

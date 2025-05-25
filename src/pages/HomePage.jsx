@@ -1,9 +1,10 @@
 import BookPurchaseCard from "../components/subComponents/userBook/BookPurchaseCard";
 import {useState, useEffect} from "react";
-import {getAllTags, searchBooks} from "../services/getBooks";
+import {getAllTags, searchBooks} from "../services/bookActions";
 import {Col, Pagination, Row, Input, Empty, Select} from "antd";
 import UserLayout from "../generalUsages/UserLayout";
 import "../stylesheets/Home.css"
+import BookSearch from "../components/subComponents/common/BookSearch";
 
 const {Search} = Input;
 
@@ -37,11 +38,6 @@ export default function HomePage() {
     useEffect(() => {
         async function fetchBook() {
             const bookData = await searchBooks(tag, keyword, curIndex, 8);
-            //如果bookData不是列表，那么就返回空列表
-            if(bookData.status === 401){
-                setBooks([]);
-                return;
-            }
             setBooks(bookData);
             setTotalPages(bookData.total);
         }
@@ -73,31 +69,12 @@ export default function HomePage() {
 
     return (
         <UserLayout>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: '10px',
-                marginBottom: '20px'
-            }}>
-                <Search placeholder="搜索" onSearch={onKeywordSearch} size="large" style={{width: "25vw"}}/>
-                <Select
-                    size="large"
-                    style={{
-                        width: "8vw",
-                    }}
-                    allowClear
-                    options={allTags.map((tag, index) => {
-                        return {
-                            value: tag,
-                            label: tag
-                        }
-                    })}
-                    onSelect={onTagSearch}
-                    onClear={() => setTag("")}
-                    placeholder="标签"
-                />
-            </div>
+            <BookSearch
+                onKeywordSearch={onKeywordSearch}
+                allTags={allTags}
+                onTagSearch={onTagSearch}
+                setTag={setTag}
+            />
             {books && books.items.length > 0 ? <BookTab books={books} curIndex={curIndex}/> :
                 <Empty style={{minHeight: "65vh"}}/>}
             <Pagination

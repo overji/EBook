@@ -1,6 +1,6 @@
 import {useState,useEffect} from "react";
 import {Divider, Table} from 'antd';
-import {getOrder} from "../services/orderAction";
+import {getOrder} from "../services/orderActions";
 import {Flex,Row,Col,Typography} from "antd";
 
 const {Text} = Typography;

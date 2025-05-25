@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {Modal, Button, Form, Input, Select, message} from 'antd';
-import { getAddresses } from "../../../services/userAction";
-import {addOrder} from "../../../services/orderAction";
-import {deleteFromCart} from "../../../services/cartAction";
+import { getAddresses } from "../../../services/userActions";
+import {addOrder} from "../../../services/orderActions";
+import {deleteFromCart} from "../../../services/cartActions";
 
 export default function OrderModal({selectedList,setSelectedList}) {
     const [messageApi, contextHolder] = message.useMessage();

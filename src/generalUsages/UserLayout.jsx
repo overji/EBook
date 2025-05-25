@@ -2,7 +2,7 @@ import React, {useEffect,useState} from 'react';
 import { useLocation, useNavigate} from "react-router-dom";
 import {Avatar, Breadcrumb, Dropdown, Layout, Menu} from "antd";
 import { getApiUrl } from "../services/common";
-import {getMe} from "../services/userAction";
+import {getMe} from "../services/userActions";
 import {UserContext} from "../services/context";
 import {PageLoading} from "@ant-design/pro-components";
 import {logout} from "../services/login";
@@ -109,10 +109,11 @@ export default function UserLayout({ children }) {
     useEffect(()=>{
         getMe()
             .then((res) => {
+                console.log(`me: ${JSON.stringify(res)}`);
                 if(res === undefined){
                     navigate("/login",{state:{"loginStatus":"UnLoggedIn"}});
                 }
-                if(res.privilege !== null && res.privilege > 0){
+                if(res && res.privilege !== null && res.privilege > 0){
                     navigate("/admin");
                 }
                 setUser(res)

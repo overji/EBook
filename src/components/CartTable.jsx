@@ -1,4 +1,4 @@
-import {getCart, changeCart, addToCart, deleteFromCart} from "../services/cartAction";
+import {getCart, changeCart, addToCart, deleteFromCart} from "../services/cartActions";
 
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Flex, InputNumber, Row, Table, Typography} from 'antd';
