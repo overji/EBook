@@ -10,6 +10,8 @@ import BookPage from "../pages/BookPage";
 import Error404Page from "../pages/Error404Page";
 import AdminBookPage from "../pages/AdminBookPage";
 import AdminOrderPage from "../pages/AdminOrderPage";
+import AdminUserTable from "../components/AdminUserTable";
+import AdminUserPage from "../pages/AdminUserPage";
 
 
 function BookPageWrapper() {
@@ -34,6 +36,7 @@ export default function AppRoutes() {
                 <Route path="*" element={<Error404Page/>} />
                 <Route path="/admin" element={<AdminBookPage/>}/>
                 <Route path="/admin/order" element={<AdminOrderPage/>}/>
+                <Route path="/admin/user" element={<AdminUserPage/>}/>
             </Routes>
         </Router>
     );

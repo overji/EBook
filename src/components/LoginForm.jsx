@@ -18,19 +18,23 @@ export default function MyLoginForm({messageApi}){
 
     async function handleLogin(values){
         let status = await login(values.username, values.password)
-        if(status)
+        if(status.ok === true)
         {
             if(status.isAdmin){
                 navigate("/admin",{ state: { loginStatus: "LoggedIn" } })
             } else {
                 navigate("/",{ state: { loginStatus: "LoggedIn" } })
             }
-        }
-        else
+        } else if(status.ok === false)
         {
             messageApi.open({
                 type: 'error',
-                content: '登陆错误',
+                content: `登陆失败:${status.message}` || '登录失败，请检查用户名和密码！',
+            });
+        } else {
+            messageApi.open({
+                type: 'error',
+                content: '登录请求失败，请稍后再试！',
             });
         }
     }

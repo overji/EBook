@@ -1,5 +1,34 @@
 import {getApiUrl,myGetJson,myPut,myPost,myGet,myDelete} from "./common";
 
+export async function getUsers(pageSize,pageIndex){
+    let url = `${getApiUrl()}/user/admin?pageSize=${pageSize}&pageIndex=${pageIndex}`;
+    let res;
+    try{
+        res = await myGetJson(url);
+        if(res.ok === false){
+            return undefined;
+        }
+    } catch (e) {
+        console.error(e);
+        res = undefined;
+    }
+    return res;
+}
+
+export async function setUserDisabled(id,disabled){
+    let url = `${getApiUrl()}/user/admin/${id}?isDisabled=${disabled}`;
+    let res;
+    try{
+        res = await myPut(url);
+        if(res.ok) {
+            console.log("成功更改用户状态");
+        }
+    } catch (e) {
+        console.error(e);
+        res = {}
+    }
+    return res;
+}
 export async function changePassword(password)
 {
     let url = `${getApiUrl()}/user/me/password`

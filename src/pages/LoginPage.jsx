@@ -21,7 +21,7 @@ export default function LoginPage() {
                 key: keyRef.current
             });
         } else {
-            console.log("hi?");
+            console.log("err");
         }
         return () => {
             messageApi.destroy(cur); // Use the same key for cleanup

@@ -38,35 +38,17 @@ export default function AdminLayout({ children }) {
             label: `订单管理`,
             onClick: () => navigate("/admin/order")
         },
-        {
-            key: 3,
-            label: `个人`,
-            onClick: () => navigate("/admin/me")
-        },
     ];
 
     function getDropItems(user) {
         return {
             items: [
                 {
+                    key: '0',
+                    label:`管理员: ${user.username}`,
+                },
+                {
                     key: '1',
-                    label: (
-                        <div
-                            onClick={() => {
-                                navigate("/admin/me");
-                            }}
-                            style={{cursor: 'pointer' }}
-                        >
-                            个人中心
-                        </div>
-                    ),
-                },
-                {
-                    key: '2',
-                    label:`余额：∞￥`
-                },
-                {
-                    key: '3',
                     label: (
                         <div onClick={() => {
                             logout().then(()=>{
