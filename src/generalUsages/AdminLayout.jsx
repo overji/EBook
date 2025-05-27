@@ -26,7 +26,7 @@ export default function AdminLayout({ children }) {
         {
             key: 0,
             label: `书籍管理`,
-            onClick: () => navigate("/")
+            onClick: () => navigate("/admin")
         },
         {
             key: 1,
@@ -137,7 +137,7 @@ export default function AdminLayout({ children }) {
                 <Sider width={200}>
                     <Menu
                         mode="inline"
-                        defaultSelectedKeys={['0']}
+                        defaultSelectedKeys={['2']}
                         items={items}
                         selectedKeys={[`${selectedKey}`]}
                         style={{ height: '100%', borderRight: 0 }}
