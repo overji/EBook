@@ -12,6 +12,7 @@ import AdminBookPage from "../pages/AdminBookPage";
 import AdminOrderPage from "../pages/AdminOrderPage";
 import AdminUserTable from "../components/AdminUserTable";
 import AdminUserPage from "../pages/AdminUserPage";
+import StatisticsPage from "../pages/StatisticsPage";
 
 
 function BookPageWrapper() {
@@ -34,6 +35,7 @@ export default function AppRoutes() {
                 {/*在组件中可以通过 useParams 钩子获取这个参数的值*/}
                 <Route path="/book/:id" element={<BookPageWrapper />} />
                 <Route path="*" element={<Error404Page/>} />
+                <Route path="/statistics" element={<StatisticsPage/>} />
                 <Route path="/admin" element={<AdminBookPage/>}/>
                 <Route path="/admin/order" element={<AdminOrderPage/>}/>
                 <Route path="/admin/user" element={<AdminUserPage/>}/>

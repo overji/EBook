@@ -17,6 +17,7 @@ const routeBreadcrumbNameMap = {
     '/cart': '购物车',
     '/order': '订单',
     '/book': '图书详情',
+    '/statistics': '统计',
 };
 
 export default function UserLayout({ children }) {
@@ -43,6 +44,11 @@ export default function UserLayout({ children }) {
             key: 3,
             label: `订单`,
             onClick: () => navigate("/order")
+        },
+        {
+            key: 4,
+            label: `统计`,
+            onClick: () => navigate("/statistics")
         }
     ];
 
@@ -109,7 +115,6 @@ export default function UserLayout({ children }) {
     useEffect(()=>{
         getMe()
             .then((res) => {
-                console.log(`me: ${JSON.stringify(res)}`);
                 if(res === undefined){
                     navigate("/login",{state:{"loginStatus":"UnLoggedIn"}});
                 }

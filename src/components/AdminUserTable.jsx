@@ -65,7 +65,8 @@ export default function AdminUserTable() {
                             </Button>
                         ) : (
                             <Button
-                                type="primary"
+                                variant="solid"
+                                color={record.isDisabled?"red":"blue"}
                                 onClick={()=>{
                                     setUserDisabled(record.id, !record.isDisabled)
                                         .then((res) => {

@@ -27,7 +27,6 @@ export default function ImageUpload({onUploadSuccess,onFileRemove}){
         if (info.file.status === 'done') {
             setLoading(false); // 取消加载状态
             const response = info.file.response; // 获取服务器返回的数据
-            console.log(response);
             if (response && response.ok === true) {
                 message.success('Upload successful!');
                 onUploadSuccess(response.filePath); // 调用上传成功后的回调

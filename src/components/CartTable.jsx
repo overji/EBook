@@ -103,7 +103,6 @@ export default function CartTable() {
 
     useEffect(() => {
         getCart().then((res) => {
-            console.log(JSON.stringify(res))
             if (res) {
                 setCart(res);
             }
@@ -112,7 +111,6 @@ export default function CartTable() {
 
     const onSelectChange = (newSelectedRowKeys) => {
         setSelectedRowKeys(newSelectedRowKeys);
-        console.log(newSelectedRowKeys);
     };
 
     const rowSelection = {
@@ -129,7 +127,12 @@ export default function CartTable() {
             <Table
                 rowSelection={rowSelection}
                 columns={columns}
-                dataSource={cart}
+                dataSource={cart.map((value,index)=>{
+                    return {
+                        ...value,
+                        key: value.id,
+                    }
+                })}
                 rowKey={record => record.id}
                 expandable={{
                     expandedRowRender: (record) => <ExpandCartItem cartItem={record}/>,

@@ -13,6 +13,7 @@ export async function getOrder(startTime = "", endTime = "", bookName = "")
 
 export async function getOrderAdmin(startTime = "", endTime = "", bookName = "")
 {
+    bookName = encodeURIComponent(bookName);
     let url = getApiUrl() + `/order/admin?startTime=${startTime}&endTime=${endTime}&bookName=${bookName}`;
     try{
         return await myGetJson(url);

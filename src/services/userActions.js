@@ -166,7 +166,6 @@ export async function getMe()
     let res;
     try{
         res = await myGetJson(url)
-        console.log(`res:${JSON.stringify(res)}`);
         if(res.ok === false){
             return undefined;
         }

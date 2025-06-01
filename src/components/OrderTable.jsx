@@ -145,7 +145,12 @@ export default function OrderTable({isAdmin = false})
             </Row>
             <Table
                 columns={columns}
-                dataSource={orders}
+                dataSource={orders.map((value,index)=>{
+                    return {
+                        ...value,
+                        key:value.id
+                    }
+                })}
                 rowKey={record=>record.id}
                 expandable={{
                     expandedRowRender: record => expandOrderItem(record),

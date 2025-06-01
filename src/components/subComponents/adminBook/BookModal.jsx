@@ -44,6 +44,7 @@ export default function BookModal({books = null, setBooks = null, curModifyingBo
                                     description: description,
                                     price: price,
                                     cover: imageURL,
+                                    sales: 0,
                                     tags: tags.map((tag, index) => ({
                                         name: tag,
                                         id: index + 1
@@ -75,6 +76,7 @@ export default function BookModal({books = null, setBooks = null, curModifyingBo
                                     if (book.id === bookRecord.id) {
                                         return {
                                             id: book.id,
+                                            sales: book.sales,
                                             title: title,
                                             author: author,
                                             description: description,
