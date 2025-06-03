@@ -38,6 +38,11 @@ export default function AdminLayout({ children }) {
             label: `订单管理`,
             onClick: () => navigate("/admin/order")
         },
+        {
+            key: 3,
+            label: `统计`,
+            onClick: () => navigate("/admin/statistics")
+        }
     ];
 
     function getDropItems(user) {

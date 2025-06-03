@@ -70,7 +70,15 @@ export default function AdminBookTable() {
         },
         {title: '作者', dataIndex: 'author'},
         {title: 'ISBN', dataIndex: 'isbn'},
-        {title: '价格', dataIndex: 'price'},
+        {
+            title: '价格',
+            dataIndex: 'price',
+            render: (text, record) => {
+                return (
+                    <span>{(text / 100).toFixed(2)} ￥</span>
+                );
+            }
+        },
         {
             title: '销量',
             dataIndex: 'sales',

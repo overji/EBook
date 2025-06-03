@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {getOrder, getOrderAdmin} from "../../../services/orderActions";
-import {DatePicker, Row, Table, Typography} from "antd";
+import {DatePicker, Divider, Row, Table, Typography} from "antd";
+import AdminUserPurchaseTable from "../../AdminUserPurchaseTable";
 
 const {Text} = Typography;
 export default function BookChart({isAdmin = false}) {
@@ -11,35 +12,67 @@ export default function BookChart({isAdmin = false}) {
     const [totalCost, setTotalCost] = useState(0);
 
     useEffect(() => {
-        getOrder(startTime, endTime, "")
-            .then(res => {
-                if (res) {
-                    let tmp = {};
-                    let purchase = 0;
-                    let cost = 0;
-                    for (let i = 0; i < res.length; i++) {
-                        for (let j = 0; j < res[i].items.length; j++) {
-                            purchase += res[i].items[j].number;
-                            cost += res[i].items[j].number * res[i].items[j].book.price / 100;
-                            tmp[res[i].items[j].book.id] = tmp[res[i].items[j].book.id] || {
-                                ...res[i].items[j].book,
-                                purchase: 0
-                            };
-                            tmp[res[i].items[j].book.id].purchase += res[i].items[j].number;
+        if (!isAdmin) {
+            getOrder(startTime, endTime, "")
+                .then(res => {
+                    if (res) {
+                        let tmp = {};
+                        let purchase = 0;
+                        let cost = 0;
+                        for (let i = 0; i < res.length; i++) {
+                            for (let j = 0; j < res[i].items.length; j++) {
+                                purchase += res[i].items[j].number;
+                                cost += res[i].items[j].number * res[i].items[j].book.price / 100;
+                                tmp[res[i].items[j].book.id] = tmp[res[i].items[j].book.id] || {
+                                    ...res[i].items[j].book,
+                                    purchase: 0
+                                };
+                                tmp[res[i].items[j].book.id].purchase += res[i].items[j].number;
+                            }
                         }
+                        setTotalPurchase(purchase);
+                        setTotalCost(cost);
+                        //遍历tmp的每一个键值对，将其转换为数组存在statistics中，并且按purchase进行排序
+                        const sortedStatistics = Object.values(tmp).sort((a, b) => b.purchase - a.purchase);
+                        setStatistics(sortedStatistics);
+                    } else {
+                        setStatistics([]);
                     }
-                    setTotalPurchase(purchase);
-                    setTotalCost(cost);
-                    //遍历tmp的每一个键值对，将其转换为数组存在statistics中，并且按purchase进行排序
-                    const sortedStatistics = Object.values(tmp).sort((a, b) => b.purchase - a.purchase);
-                    setStatistics(sortedStatistics);
-                } else {
-                    setStatistics([]);
-                }
-            })
-            .catch(err => {
-                console.error("获取订单失败", err);
-            });
+                })
+                .catch(err => {
+                    console.error("获取订单失败", err);
+                });
+        } else {
+            getOrderAdmin(startTime, endTime, "")
+                .then(res => {
+                    if (res) {
+                        let tmp = {};
+                        let purchase = 0;
+                        let cost = 0;
+                        for (let i = 0; i < res.length; i++) {
+                            for (let j = 0; j < res[i].items.length; j++) {
+                                purchase += res[i].items[j].number;
+                                cost += res[i].items[j].number * res[i].items[j].book.price / 100;
+                                tmp[res[i].items[j].book.id] = tmp[res[i].items[j].book.id] || {
+                                    ...res[i].items[j].book,
+                                    purchase: 0
+                                };
+                                tmp[res[i].items[j].book.id].purchase += res[i].items[j].number;
+                            }
+                        }
+                        setTotalPurchase(purchase);
+                        setTotalCost(cost);
+                        //遍历tmp的每一个键值对，将其转换为数组存在statistics中，并且按purchase进行排序
+                        const sortedStatistics = Object.values(tmp).sort((a, b) => b.purchase - a.purchase);
+                        setStatistics(sortedStatistics);
+                    } else {
+                        setStatistics([]);
+                    }
+                })
+                .catch(err => {
+                    console.error("获取订单失败", err);
+                });
+        }
     }, [startTime, endTime, isAdmin]);
     const columns = [
         {
@@ -114,6 +147,13 @@ export default function BookChart({isAdmin = false}) {
                 })}
                 rowKey={record => record.id}
             />
+            <Divider/>
+            {(isAdmin?
+                <AdminUserPurchaseTable
+                    startTime={startTime}
+                    endTime={endTime}
+                />
+                :<></>)}
         </>
     )
 }

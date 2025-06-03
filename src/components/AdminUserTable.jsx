@@ -51,7 +51,13 @@ export default function AdminUserTable() {
             )
         },
         {title: '昵称', dataIndex: 'nickname'},
-        {title: '余额', dataIndex: 'balance'},
+        {
+            title: '余额',
+            dataIndex: 'balance',
+            render: (text, record) => (
+                <span>{(text / 100).toFixed(2)} ￥</span>
+            )
+        },
         {title: 'email', dataIndex: 'email'},
         {
             title: '操作',

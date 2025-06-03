@@ -13,6 +13,7 @@ import AdminOrderPage from "../pages/AdminOrderPage";
 import AdminUserTable from "../components/AdminUserTable";
 import AdminUserPage from "../pages/AdminUserPage";
 import StatisticsPage from "../pages/StatisticsPage";
+import AdminStatisticsPage from "../pages/AdminStatisticsPage";
 
 
 function BookPageWrapper() {
@@ -39,6 +40,7 @@ export default function AppRoutes() {
                 <Route path="/admin" element={<AdminBookPage/>}/>
                 <Route path="/admin/order" element={<AdminOrderPage/>}/>
                 <Route path="/admin/user" element={<AdminUserPage/>}/>
+                <Route path="/admin/statistics" element={<AdminStatisticsPage/>}/>
             </Routes>
         </Router>
     );

@@ -44,3 +44,14 @@ export async function addOneOrder(orderInfo,bookId,number)
         return null;
     }
 }
+
+export async function getUserOrderStatistics(startTime = "", endTime = "")
+{
+    let url = getApiUrl() + `/order/statistics?startTime=${startTime}&endTime=${endTime}`;
+    try{
+        return await myGetJson(url);
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}
