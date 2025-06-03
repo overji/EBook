@@ -47,6 +47,9 @@ function BookPurchaseDiv({bookInfo}) {
                 <Text style={{marginRight:"10px"}}>
                     销量: <b>{bookInfo.sales}</b>
                 </Text>
+                <Text style={{marginRight:"10px"}}>
+                    库存: <b>{bookInfo.stock}</b>
+                </Text>
                 <Text>
                     标签: {bookInfo.tags.map((tagInfo, index) => {
                         return (
