@@ -58,17 +58,21 @@ function expandOrderItem(order){
 
 export default function OrderTable({isAdmin = false})
 {
+    const pageSize = 8;
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
     const [bookName, setBookName] = useState("");
     const [orders,setOrders] = useState([])
+    const [curPage, setCurPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(()=>{
         if(!isAdmin){
-            getOrder(startTime,endTime,bookName)
+            getOrder(startTime,endTime,bookName, curPage, pageSize)
                 .then(res=>{
                     if(res){
-                        setOrders(res);
+                        setOrders(res.items);
+                        setTotalPages(res.total);
                     } else {
                         setOrders([]);
                     }
@@ -77,10 +81,11 @@ export default function OrderTable({isAdmin = false})
                     console.error("获取订单失败",err);
                 });
         } else {
-            getOrderAdmin(startTime,endTime,bookName)
+            getOrderAdmin(startTime,endTime,bookName, curPage, pageSize)
                 .then(res=>{
                     if(res){
-                        setOrders(res);
+                        setOrders(res.items);
+                        setTotalPages(res.total);
                     } else {
                         setOrders([]);
                     }
@@ -89,7 +94,7 @@ export default function OrderTable({isAdmin = false})
                     console.error("获取订单失败",err);
                 });
         }
-    },[startTime, endTime, bookName,isAdmin]);
+    },[startTime, endTime, bookName,isAdmin, curPage]);
     const columns = [
         {
             title: '收货人',
@@ -155,6 +160,15 @@ export default function OrderTable({isAdmin = false})
                 expandable={{
                     expandedRowRender: record => expandOrderItem(record),
                     rowExpandable: record => record.items.length > 0,
+                }}
+                pagination={{
+                    pageSize: pageSize,
+                    current: curPage + 1,
+                    total: totalPages * pageSize,
+                    onChange: (page) => {
+                        setCurPage(page - 1);
+                    },
+                    showSizeChanger: false,
                 }}
             />
         </>

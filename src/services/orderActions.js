@@ -1,8 +1,9 @@
 import {getApiUrl, myGetJson, myPost} from "./common";
 
-export async function getOrder(startTime = "", endTime = "", bookName = "")
+export async function getOrder(startTime = "", endTime = "", bookName = "",pageIndex = 0, pageSize = 8)
 {
-    let url = getApiUrl() + `/order?startTime=${startTime}&endTime=${endTime}&bookName=${bookName}`;
+    bookName = encodeURIComponent(bookName);
+    let url = getApiUrl() + `/order?startTime=${startTime}&endTime=${endTime}&bookName=${bookName}&pageIndex=${pageIndex}&pageSize=${pageSize}`;
     try{
         return await myGetJson(url);
     } catch (error) {
@@ -11,10 +12,10 @@ export async function getOrder(startTime = "", endTime = "", bookName = "")
     }
 }
 
-export async function getOrderAdmin(startTime = "", endTime = "", bookName = "")
+export async function getOrderAdmin(startTime = "", endTime = "", bookName = "", pageIndex = 0, pageSize = 8)
 {
     bookName = encodeURIComponent(bookName);
-    let url = getApiUrl() + `/order/admin?startTime=${startTime}&endTime=${endTime}&bookName=${bookName}`;
+    let url = getApiUrl() + `/order/admin?startTime=${startTime}&endTime=${endTime}&bookName=${bookName}&pageIndex=${pageIndex}&pageSize=${pageSize}`;
     try{
         return await myGetJson(url);
     } catch (error) {

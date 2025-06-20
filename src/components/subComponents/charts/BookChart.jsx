@@ -13,21 +13,24 @@ export default function BookChart({isAdmin = false}) {
 
     useEffect(() => {
         if (!isAdmin) {
-            getOrder(startTime, endTime, "")
+            getOrder(startTime, endTime, "", -1,-1)
                 .then(res => {
                     if (res) {
+                        res = res.items || res; // 兼容旧版本的返回格式
                         let tmp = {};
                         let purchase = 0;
                         let cost = 0;
                         for (let i = 0; i < res.length; i++) {
                             for (let j = 0; j < res[i].items.length; j++) {
                                 purchase += res[i].items[j].number;
-                                cost += res[i].items[j].number * res[i].items[j].book.price / 100;
+                                cost += res[i].items[j].cost;
                                 tmp[res[i].items[j].book.id] = tmp[res[i].items[j].book.id] || {
                                     ...res[i].items[j].book,
-                                    purchase: 0
+                                    purchase: 0,
+                                    cost: 0,
                                 };
                                 tmp[res[i].items[j].book.id].purchase += res[i].items[j].number;
+                                tmp[res[i].items[j].book.id].cost += res[i].items[j].cost;
                             }
                         }
                         setTotalPurchase(purchase);
@@ -43,21 +46,24 @@ export default function BookChart({isAdmin = false}) {
                     console.error("获取订单失败", err);
                 });
         } else {
-            getOrderAdmin(startTime, endTime, "")
+            getOrderAdmin(startTime, endTime, "",-1,-1)
                 .then(res => {
                     if (res) {
+                        res = res.items || res; // 兼容旧版本的返回格式
                         let tmp = {};
                         let purchase = 0;
                         let cost = 0;
                         for (let i = 0; i < res.length; i++) {
                             for (let j = 0; j < res[i].items.length; j++) {
                                 purchase += res[i].items[j].number;
-                                cost += res[i].items[j].number * res[i].items[j].book.price / 100;
+                                cost += res[i].items[j].cost;
                                 tmp[res[i].items[j].book.id] = tmp[res[i].items[j].book.id] || {
                                     ...res[i].items[j].book,
-                                    purchase: 0
+                                    purchase: 0,
+                                    cost: 0
                                 };
                                 tmp[res[i].items[j].book.id].purchase += res[i].items[j].number;
+                                tmp[res[i].items[j].book.id].cost += res[i].items[j].cost;
                             }
                         }
                         setTotalPurchase(purchase);
@@ -101,7 +107,7 @@ export default function BookChart({isAdmin = false}) {
             title: "花费",
             key: 'cost',
             render: (text, record) => {
-                const cost = (record.purchase * record.price / 100).toFixed(2);
+                const cost = (record.cost / 100).toFixed(2);
                 return (
                     <span>{cost} ￥</span>
                 );
@@ -134,7 +140,7 @@ export default function BookChart({isAdmin = false}) {
             </Row>
             <Row>
                 <Typography>
-                    <Text strong>总花费: {totalCost.toFixed(2)} ￥</Text>
+                    <Text strong>总花费: {(totalCost / 100).toFixed(2)} ￥</Text>
                 </Typography>
             </Row>
             <Table

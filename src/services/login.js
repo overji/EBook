@@ -1,8 +1,9 @@
 import {getApiUrl, myPost, myPut} from "./common.js";
-
+import sha256 from "crypto-js/sha256";
 
 export async function login(username, userPassword) {
     const urlPath = `${getApiUrl()}/login`;
+    userPassword = sha256(userPassword).toString();
     const loginObject = {
         username: username,
         password: userPassword

@@ -140,6 +140,11 @@ export default function BookIntro({bookId})
     useEffect(()=>{
         getBookWithId(bookId)
             .then(res=>{
+                if(res.ok === false) {
+                    message.error(`获取书籍信息失败，原因:${res.message}`);
+                    //导航到主页
+                    window.location.href = "/";
+                }
                 setBookInfo(res);
             })
     },[bookId])

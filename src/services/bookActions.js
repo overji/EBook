@@ -91,11 +91,13 @@ export async function updateBook(id,title,author,description,price,cover,tags,is
     return res;
 }
 
-export async function deleteBook(id){
+export async function deleteBook(id,isDeleted = true){
     const url = `${getApiUrl()}/book/${id}`;
     let res = {};
     try{
-        res = await myDelete(url);
+        res = await myDelete(url,{
+            "isDeleted": isDeleted
+        });
     } catch (e) {
         return {};
     }

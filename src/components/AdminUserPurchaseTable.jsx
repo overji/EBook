@@ -56,7 +56,15 @@ export default function AdminUserPurchaseTable({startTime, endTime}) {
             )
         },
         {title: '昵称', dataIndex: 'nickname'},
-        {title: '余额', dataIndex: 'balance'},
+        {
+            title: '余额',
+            dataIndex: 'balance',
+            render: (text) => {
+                return (
+                    <span>{(text / 100).toFixed(2)} ￥</span>
+                );
+            }
+        },
         {title: 'email', dataIndex: 'email'},
         {
             title: "总消费",

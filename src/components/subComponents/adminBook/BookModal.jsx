@@ -23,6 +23,7 @@ export default function BookModal({books = null, setBooks = null, curModifyingBo
         form.validateFields().then(values => {
             const {title, author, description, tags, ISBN, stock} = values;
             let price = curYuan * 100 + curJiao * 10 + curFen;
+            console.log(`价格: ${price} 分`);
             if (bookRecord === null) {
                 addBook(title, author, description, price, imageURL, tags, ISBN, stock).then(res => {
                     if (res.ok) {
@@ -250,7 +251,7 @@ export default function BookModal({books = null, setBooks = null, curModifyingBo
                                     onChange={(value) => {
                                         setCurYuan(value);
                                     }}
-                                    defaultValue={0}
+                                    defaultValue={curYuan}
                                 />
                             </Col>
                             <Col span={4} offset={2}>
@@ -259,7 +260,7 @@ export default function BookModal({books = null, setBooks = null, curModifyingBo
                                     style={{width: '100%'}}
                                     min={0}
                                     max={9}
-                                    defaultValue={0}
+                                    defaultValue={curJiao}
                                     onChange={(value) => {
                                         setCurJiao(value);
                                     }}
@@ -271,7 +272,7 @@ export default function BookModal({books = null, setBooks = null, curModifyingBo
                                     style={{width: '100%'}}
                                     min={0}
                                     max={9}
-                                    defaultValue={0}
+                                    defaultValue={curFen}
                                     onChange={(value) => {
                                         setCurFen(value);
                                     }}

@@ -96,24 +96,32 @@ export default function AdminBookTable() {
                 <>
                     <Row>
                         <Button
-                            type="primary"
+                            variant="solid"
+                            color={record.isDeleted?"red":"blue"}
                             onClick={() => {
-                                deleteBook(record.id).then((res) => {
+                                deleteBook(record.id,!record.isDeleted).then((res) => {
                                     if (res === undefined || res.status !== 200) {
-                                        messageApi.error("删除失败");
+                                        messageApi.error("操作失败");
                                         return;
                                     }
-                                    messageApi.success("删除成功");
-                                    //从books中删除该书籍
-                                    setBooks((prevBooks) => ({
-                                        ...prevBooks,
-                                        items: prevBooks.items.filter((item) => item.id !== record.id),
+                                    messageApi.success("操作成功");
+                                    setBooks(prev => ({
+                                        ...prev,
+                                        items: prev.items.map((item) => {
+                                            if (item.id === record.id) {
+                                                return {
+                                                    ...item,
+                                                    isDeleted: !item.isDeleted
+                                                };
+                                            }
+                                            return item;
+                                        })
                                     }));
                                 });
                             }
                             }
                         >
-                            删除
+                            {record.isDeleted ? "上架" : "下架"}
                         </Button>
                     </Row>
                     <Row>

@@ -1,5 +1,5 @@
 import {getApiUrl,myGetJson,myPut,myPost,myGet,myDelete} from "./common";
-
+import sha256 from "crypto-js/sha256";
 export async function getUsers(pageSize,pageIndex){
     let url = `${getApiUrl()}/user/admin?pageSize=${pageSize}&pageIndex=${pageIndex}`;
     let res;
@@ -51,11 +51,12 @@ export async function changePassword(password)
 export async function register(username,nickname,password,email){
     let url = `${getApiUrl()}/user/register`
     let res;
+    const hashedPassword = sha256(password).toString();
     try{
         res = await myPost(url,{
             username:username,
             nickname:nickname,
-            password:password,
+            password:hashedPassword,
             email:email
         });
         if(res.ok)
